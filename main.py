@@ -47,7 +47,7 @@ def main():
             print("\n--- EXECUTIVE MARKET SUMMARY ---")
             print(f"Highest Closing Price: {hc.get('symbol')} (INR {hc.get('close_price')})")
             print(f"Lowest Closing Price:  {lc.get('symbol')} (INR {lc.get('close_price')})")
-            print(f"Average Closing Price: INR {avg.get('average_closing_price')}")
+            print(f"Average Closing Price: INR {avg.get('average_closing_price'): 0.2f}")
             print(f"Most Active Stock:     {ma.get('symbol')} (Vol: {ma.get('volume')})")
             print(f"Least Active Stock:    {la.get('symbol')} (Vol: {la.get('volume')})")
             
