@@ -1,0 +1,25 @@
+_______SAMP DAILY REPORT (LIVE)______
+All Available Stocks: 
+Symbol: RELIANCE| Name: Reliance Industries| Sector: Energy| Market Cap: Large Cap
+Symbol: TCS| Name: Tata Consultancy Services| Sector: Technology| Market Cap: Large Cap
+Symbol: INFY| Name: Infosys| Sector: Technology| Market Cap: Large Cap
+Symbol: HDFCBANK| Name: HDFC Bank| Sector: Banking| Market Cap: Large Cap
+Symbol: ICICIBANK| Name: ICICI Bank| Sector: Banking| Market Cap: Large Cap
+Symbol: ITC| Name: ITC Limited| Sector: Consumer Goods| Market Cap: Large Cap
+Symbol: BHARTIARTL| Name: Bharti Airtel| Sector: Telecom| Market Cap: Large Cap
+Symbol: LT| Name: Larsen & Toubro| Sector: Infrastructure| Market Cap: Large Cap
+Symbol: HINDUNILVR| Name: Hindustan Unilever| Sector: Consumer Goods| Market Cap: Large Cap
+Symbol: SBIN| Name: State Bank of India| Sector: Banking| Market Cap: Large Cap
+
+--------------------------------------------------
+Rankings (Closing Price): 
+Rank: 1| Symbol: TCS| Price: INR3575.00| Date: 2026-06-03
+Rank: 2| Symbol: LT| Price: INR3250.00| Date: 2026-06-03
+Rank: 3| Symbol: HINDUNILVR| Price: INR2645.00| Date: 2026-06-03
+Rank: 4| Symbol: HDFCBANK| Price: INR1735.00| Date: 2026-06-03
+Rank: 5| Symbol: INFY| Price: INR1630.00| Date: 2026-06-03
+Rank: 6| Symbol: BHARTIARTL| Price: INR1540.00| Date: 2026-06-03
+Rank: 7| Symbol: RELIANCE| Price: INR1475.00| Date: 2026-06-03
+Rank: 8| Symbol: ICICIBANK| Price: INR1135.00| Date: 2026-06-03
+Rank: 9| Symbol: SBIN| Price: INR890.00| Date: 2026-06-03
+Rank: 10| Symbol: ITC| Price: INR435.00| Date: 2026-06-03

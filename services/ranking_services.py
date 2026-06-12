@@ -12,5 +12,5 @@ class RankStocks:
         return rank[:limit]
             
     #growth = closing-opening)/opening * 100: we'll rank based on this criteria
-    def rankbygrowth(self):
+    def rankbygrowth(self)->list:
         return self.stock_price.rank_by_growth()

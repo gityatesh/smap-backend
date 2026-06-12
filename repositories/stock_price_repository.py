@@ -78,7 +78,7 @@ class StockPriceRepository:
         return self.db.execute_read_query(query)
     
     def rank_by_growth(self)->List[dict]:
-        query = '''SELECT s.symbol, s.company_name, ROUND(((sp.close_price-sp.open_price)/sp.open_price)*100, 2), sp.trade_date, RANK() OVER (ORDER BY sp.close_price DESC) AS market_rank
+        query = '''SELECT s.symbol, s.company_name, ROUND(((sp.close_price-sp.open_price)/sp.open_price)*100, 2) as growth_percent, sp.trade_date, RANK() OVER (ORDER BY sp.close_price DESC) AS market_rank
         FROM stocks s
         JOIN stock_prices sp
         ON s.id = sp.stock_id

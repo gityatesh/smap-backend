@@ -1,0 +1,30 @@
+_________SAMP MARKET SUMMARY________
+Highest Market Close: TCS| INR 3575.00| 2026-06-03
+Lowest Market Close: ITC| INR 425.00| 2026-06-01
+Average Market Close: None| INR None| None
+Most Active Stock: SBIN| INR 260000| 2026-06-03
+Least Active Stock: HINDUNILVR| INR 65000| 2026-06-01
+--------------------------------------------------
+Rankings (Growth): 
+Rank: 1| Symbol: TCS| Growth: 0.70%
+Rank: 2| Symbol: LT| Growth: 0.46%
+Rank: 3| Symbol: HINDUNILVR| Growth: 0.57%
+Rank: 4| Symbol: HDFCBANK| Growth: 0.87%
+Rank: 5| Symbol: INFY| Growth: 0.31%
+Rank: 6| Symbol: BHARTIARTL| Growth: 0.98%
+Rank: 7| Symbol: RELIANCE| Growth: -0.34%
+Rank: 8| Symbol: ICICIBANK| Growth: 1.34%
+Rank: 9| Symbol: SBIN| Growth: 1.71%
+Rank: 10| Symbol: ITC| Growth: 1.16%
+--------------------------------------------------
+Rankings (Most Active): 
+Rank: 1| Symbol: TCS| Volume: 84000
+Rank: 2| Symbol: LT| Volume: 74000
+Rank: 3| Symbol: HINDUNILVR| Volume: 69000
+Rank: 4| Symbol: HDFCBANK| Volume: 130000
+Rank: 5| Symbol: INFY| Volume: 95000
+Rank: 6| Symbol: BHARTIARTL| Volume: 150000
+Rank: 7| Symbol: RELIANCE| Volume: 172000
+Rank: 8| Symbol: ICICIBANK| Volume: 140000
+Rank: 9| Symbol: SBIN| Volume: 260000
+Rank: 10| Symbol: ITC| Volume: 210000
