@@ -1,0 +1,31 @@
+symbol,company_name,sector,trade_date,open_price,close_price,volume
+RELIANCE,Reliance Industries,Energy,2026-06-01,1450.0,1470.0,150000
+RELIANCE,Reliance Industries,Energy,2026-06-02,1470.0,1460.0,160000
+RELIANCE,Reliance Industries,Energy,2026-06-03,1480.0,1475.0,172000
+TCS,Tata Consultancy Services,Technology,2026-06-01,3500.0,3520.0,80000
+TCS,Tata Consultancy Services,Technology,2026-06-02,3520.0,3550.0,82000
+TCS,Tata Consultancy Services,Technology,2026-06-03,3550.0,3575.0,84000
+INFY,Infosys,Technology,2026-06-01,1600.0,1610.0,90000
+INFY,Infosys,Technology,2026-06-02,1610.0,1625.0,92000
+INFY,Infosys,Technology,2026-06-03,1625.0,1630.0,95000
+HDFCBANK,HDFC Bank,Banking,2026-06-01,1700.0,1710.0,120000
+HDFCBANK,HDFC Bank,Banking,2026-06-02,1710.0,1720.0,125000
+HDFCBANK,HDFC Bank,Banking,2026-06-03,1720.0,1735.0,130000
+ICICIBANK,ICICI Bank,Banking,2026-06-01,1100.0,1110.0,135000
+ICICIBANK,ICICI Bank,Banking,2026-06-02,1110.0,1120.0,138000
+ICICIBANK,ICICI Bank,Banking,2026-06-03,1120.0,1135.0,140000
+ITC,ITC Limited,Consumer Goods,2026-06-01,420.0,425.0,200000
+ITC,ITC Limited,Consumer Goods,2026-06-02,425.0,430.0,205000
+ITC,ITC Limited,Consumer Goods,2026-06-03,430.0,435.0,210000
+BHARTIARTL,Bharti Airtel,Telecom,2026-06-01,1500.0,1510.0,145000
+BHARTIARTL,Bharti Airtel,Telecom,2026-06-02,1510.0,1525.0,148000
+BHARTIARTL,Bharti Airtel,Telecom,2026-06-03,1525.0,1540.0,150000
+LT,Larsen & Toubro,Infrastructure,2026-06-01,3200.0,3210.0,70000
+LT,Larsen & Toubro,Infrastructure,2026-06-02,3210.0,3235.0,72000
+LT,Larsen & Toubro,Infrastructure,2026-06-03,3235.0,3250.0,74000
+HINDUNILVR,Hindustan Unilever,Consumer Goods,2026-06-01,2600.0,2615.0,65000
+HINDUNILVR,Hindustan Unilever,Consumer Goods,2026-06-02,2615.0,2630.0,67000
+HINDUNILVR,Hindustan Unilever,Consumer Goods,2026-06-03,2630.0,2645.0,69000
+SBIN,State Bank of India,Banking,2026-06-01,850.0,860.0,250000
+SBIN,State Bank of India,Banking,2026-06-02,860.0,875.0,255000
+SBIN,State Bank of India,Banking,2026-06-03,875.0,890.0,260000

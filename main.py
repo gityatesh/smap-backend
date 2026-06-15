@@ -2,6 +2,7 @@ from services.analytic_services import AnalyticalService
 from services.stock_services import StockServices
 from services.ranking_services import RankStocks
 from services.report_service import ReportService
+from services.pandas_analytics import PandasAnalyticsService
 
 def main():
     analytics = AnalyticalService()
@@ -16,7 +17,8 @@ def main():
         print("3. View Analytics")
         print("4. View Rankings")
         print("5. Generate Reports")
-        print("6. Exit")
+        print("6. Advance Pandas Analytics")
+        print('7. Exit')
         
         choice = int(input('Enter your choice: '))
         
@@ -81,6 +83,11 @@ def main():
             report.generate_summary()
             
         elif choice == 6:
+            PandasAnalyticsService().get_market_analysis()
+            PandasAnalyticsService().show_filtered_views()
+            PandasAnalyticsService().show_grouped_analysis()
+            
+        elif choice == 7:
             print('Shutting down...\n ThankYou for using!')
             break
         else:
