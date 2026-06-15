@@ -37,3 +37,21 @@ This project strictly adheres to the **Separation of Concerns** principle. The c
 Do not use local background services. SMAP relies on a portable Docker environment. Open your terminal in the project root and run:
 ```bash
 docker-compose up -d
+
+
+## 🚀 Recent Updates (Week 3: Data Analytics Integration)
+
+The platform has been upgraded to support offline, high-performance data analytics using **Pandas**. To protect the production PostgreSQL database from heavy analytical queries, we implemented an ETL (Extract, Transform, Load) pipeline.
+
+### New Features:
+* **ETL Extraction Pipeline:** A dedicated script (`etl/export_data.py`) safely extracts raw relational data from the Docker PostgreSQL container and flattens it into a local `stock_export.csv` file.
+* **Pandas Analytics Engine:** A decoupled analytics service (`services/pandas_analytics.py`) that reads the CSV into memory to perform high-speed grouping, aggregations, and filtering.
+* **Internal Sandboxing:** Included an internal `_marketdata_exploration.py` script for safely testing data shapes and missing values prior to production deployment.
+
+### How to use the Analytics Engine:
+1. Ensure your Docker database is running and populated.
+2. Run the extraction script from the root directory to generate the CSV:
+   `python -m etl.export_data`
+3. Launch the main application:
+   `python main.py`
+4. Select **Option 6** from the menu to view the Advanced Pandas Analytics reports.
