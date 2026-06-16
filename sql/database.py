@@ -1,3 +1,4 @@
+#used to get connection from postgresql
 import psycopg2
 from psycopg2.extras import RealDictCursor
 

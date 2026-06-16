@@ -3,6 +3,8 @@ from services.stock_services import StockServices
 from services.ranking_services import RankStocks
 from services.report_service import ReportService
 from services.pandas_analytics import PandasAnalyticsService
+import setup.setup_db
+import sql.update_sql_data_insertion
 
 def main():
     analytics = AnalyticalService()
@@ -85,7 +87,7 @@ def main():
         elif choice == 6:
             PandasAnalyticsService().get_market_analysis()
             PandasAnalyticsService().show_filtered_views()
-            PandasAnalyticsService().show_grouped_analysis()
+            # PandasAnalyticsService().show_grouped_analysis()
             
         elif choice == 7:
             print('Shutting down...\n ThankYou for using!')
@@ -94,4 +96,6 @@ def main():
             print('Invalid choice! Please try again.')
             
 if __name__ == '__main__':
+    sql.update_sql_data_insertion.update_insert_sql()
+    setup.setup_db.initialize_database()
     main()
