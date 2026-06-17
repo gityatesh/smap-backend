@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-def data_cleaning():
+def import_tranform_load():
     pathtoxl = 'data/dirty_stock_prices.xlsx'
     try:
         df = pd.read_excel(pathtoxl)
@@ -19,22 +19,33 @@ def data_cleaning():
         duplicates = df.duplicated().sum()
         na = df.isnull().sum().sum()
         
+         #fix the , in close_price and change the dtype to float
+        df['close_price'] = df['close_price'].astype(str).str.replace(',','.')
+        df['close_price'] = pd.to_numeric(df['close_price'], errors = 'coerce')
+        #striping any extra space from symbols and moving it to upper case
+        df['symbol'] = df['symbol'].str.strip().str.upper()
+        df['date'] = pd.to_datetime(df['date'], errors='coerce').dt.strftime('%Y-%m-%d')
+        
+        #drops the duplicate rows
+        df=df.drop_duplicates()        
+        df=df.dropna()
+        
         rule1 = (df['close_price']>=0)&(df['open_price']>=0) &\
             (df['high_price']>=0)&(df['low_price']>=0)
-        rule1_fails = len(~(df['close_price']>=0)&(df['open_price']>=0) &\
-            (df['high_price']>=0)&(df['low_price']>=0))
+        rule1_fails = rule1_fails = len(df[(df['close_price'] < 0) | (df['open_price'] < 0) |\
+            (df['high_price'] < 0) | (df['low_price'] < 0)])
         
         rule2 = (df['volume']>=0)
-        rule2_fails = len(df['volume']>=0)
+        rule2_fails = len(df[df['volume']<0])
         
         rule3 = (df['high_price']>=df['open_price'])
-        rule3_fails = len(df['high_price']>=df['open_price'])
+        rule3_fails = len(df[df['high_price']<df['open_price']])
         
         rule4 = (df['high_price']>=df['low_price'])
-        rule4_fails = len(df['high_price']>=df['low_price'])
+        rule4_fails = len(df[df['high_price']<df['low_price']])
             
         df = df[rule1&rule2&rule3&rule4]
-        final_fail_count  = len(df[rule1&rule2&rule3&rule4])
+        final_fail_count  = len(df)
          
          
         #creates a .txt summary inside the report folder
@@ -58,18 +69,6 @@ def data_cleaning():
         print('Report created successfully!!')
             
             
-        #drops the duplicate rows
-        df=df.drop_duplicates()        
-        #fix the , in close_price and change the dtype to float
-        df['close_price'] = df['close_price'].astype(str).str.replace(',','.')
-        df['close_price'] = pd.to_numeric(df['close_price'], error = 'coerce')
-        df=df.dropna()
-        
-        #striping any extra space from symbols and moving it to upper case
-        df['symbol'] = df['symbol'].str.strip().str.upper()
-        
-        
-        
         
         df.to_csv('data/clean_stock_prices.csv', index=False)
         
@@ -77,3 +76,7 @@ def data_cleaning():
         
     except FileNotFoundError:
         print(f'{pathtocsv} not found!')
+        
+        
+if __name__=="__main__":
+    import_tranform_load()

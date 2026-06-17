@@ -13,13 +13,13 @@ Symbol: SBIN| Name: State Bank of India| Sector: Banking| Market Cap: Large Cap
 
 --------------------------------------------------
 Rankings (Closing Price): 
-Rank: 1| Symbol: TCS| Price: INR3575.00| Date: 2026-06-03
-Rank: 2| Symbol: LT| Price: INR3250.00| Date: 2026-06-03
-Rank: 3| Symbol: HINDUNILVR| Price: INR2645.00| Date: 2026-06-03
-Rank: 4| Symbol: HDFCBANK| Price: INR1735.00| Date: 2026-06-03
-Rank: 5| Symbol: INFY| Price: INR1630.00| Date: 2026-06-03
-Rank: 6| Symbol: BHARTIARTL| Price: INR1540.00| Date: 2026-06-03
-Rank: 7| Symbol: RELIANCE| Price: INR1475.00| Date: 2026-06-03
-Rank: 8| Symbol: ICICIBANK| Price: INR1135.00| Date: 2026-06-03
-Rank: 9| Symbol: SBIN| Price: INR890.00| Date: 2026-06-03
-Rank: 10| Symbol: ITC| Price: INR435.00| Date: 2026-06-03
+Rank: 1| Symbol: TCS| Price: INR350000.00| Date: 2026-06-14
+Rank: 2| Symbol: TCS| Price: INR3660.00| Date: 2030-01-01
+Rank: 3| Symbol: TCS| Price: INR3610.00| Date: 2026-06-06
+Rank: 4| Symbol: TCS| Price: INR3600.00| Date: 2026-06-05
+Rank: 5| Symbol: TCS| Price: INR3590.00| Date: 2026-06-04
+Rank: 6| Symbol: TCS| Price: INR3575.00| Date: 2026-06-03
+Rank: 7| Symbol: TCS| Price: INR3550.00| Date: 2026-06-02
+Rank: 8| Symbol: TCS| Price: INR3520.00| Date: 2026-06-01
+Rank: 9| Symbol: LT| Price: INR3250.00| Date: 2026-06-03
+Rank: 10| Symbol: LT| Price: INR3235.00| Date: 2026-06-02
