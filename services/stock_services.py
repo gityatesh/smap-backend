@@ -11,7 +11,7 @@ class StockServices:
         self.stockprice = StockPriceRepository()
         
     def show_all_stocks(self)->List[Stock]:
-        return self.stocks.get_stock()
+        return self.stocks.get_all_stocks()
     
     def search_stocks(self, keyword:str)->List[Stock]:
         if not keyword or keyword.isspace():

@@ -1,0 +1,306 @@
+<mxfile host="65bd71144e">
+    <diagram id="yCe6jPu154aT__IKuLum" name="Page-1">
+        <mxGraphModel dx="2684" dy="6412" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="53" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="24" target="26">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="55" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="24" target="27">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="113" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="24" target="25">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="D:\Summer 2026\samp\data" style="text;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;gradientColor=#ea6b66;" vertex="1" parent="1">
+                    <mxGeometry x="1070" y="400" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="117" style="edgeStyle=none;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="25" target="110">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\data\clean_stock_prices.csv" link="D:\Summer 2026\samp\data\clean_stock_prices.csv" id="25">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#cdeb8b;strokeColor=#36393d;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="930" y="205" width="130" height="40" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="115" style="edgeStyle=none;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="26" target="73">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\data\dirty_stock_prices_v2.csv" link="D:\Summer 2026\samp\data\dirty_stock_prices_v2.csv" id="26">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#cdeb8b;strokeColor=#36393d;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="1260" y="80" width="130" height="40" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="D:\Summer 2026\samp\data\dirty_stock_prices.xlsx" link="D:\Summer 2026\samp\data\dirty_stock_prices.xlsx" id="27">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#cdeb8b;strokeColor=#36393d;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="1360" y="230" width="150" height="40" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="31" value="D:\Summer 2026\samp\etl" style="text;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;" vertex="1" parent="1">
+                    <mxGeometry x="780" y="-130" width="170" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="79" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="72">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="80" style="edgeStyle=none;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="75">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="81" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="76">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="82" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="77">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="83" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="74">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="D:\Summer 2026\samp\services" style="text;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="2360" y="-140" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\main.py" link="D:\Summer 2026\samp\main.py" id="35">
+                    <mxCell style="whiteSpace=wrap;html=1;fillColor=#e51400;fontColor=#ffffff;strokeColor=#B20000;glass=1;rounded=1;shadow=1;shape=actor;" vertex="1" parent="1">
+                        <mxGeometry x="1650" y="245" width="60" height="80" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="36" value="D:\Summer 2026\samp\setup" style="text;whiteSpace=wrap;html=1;fillColor=#647687;fontColor=#ffffff;strokeColor=#314354;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="1330" y="370" width="190" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="105" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="37" target="104">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="106" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="37" target="102">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="107" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="37" target="103">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="109" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="37" target="108">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="111" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="37" target="110">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="D:\Summer 2026\samp\sql" style="text;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="1610" y="680" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="56" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="44" target="48">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="58" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="44" target="49">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" value="D:\Summer 2026\samp\models" style="text;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="2460" y="1060" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="67" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="45" target="62">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="D:\Summer 2026\samp\repositories" style="text;whiteSpace=wrap;html=1;fillColor=#fa6800;strokeColor=#C73500;fontColor=#000000;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="2930" y="500" width="190" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="64" style="edgeStyle=none;html=1;" edge="1" parent="1" source="48" target="63">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\models\stock_price.py" link="D:\Summer 2026\samp\models\stock_price.py" id="48">
+                    <mxCell style="text;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#cdeb8b;strokeColor=#36393d;" vertex="1" parent="1">
+                        <mxGeometry x="2240" y="1040" width="150" height="40" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="65" style="edgeStyle=none;html=1;entryX=0.417;entryY=1.095;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="49" target="62">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\models\stock.py" link="D:\Summer 2026\samp\models\stock.py" id="49">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#cdeb8b;strokeColor=#36393d;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="2570" y="920" width="110" height="40" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="87" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="62" target="75">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="89" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="62" target="72">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\repositories\stock_price_repository.py" link="D:\Summer 2026\samp\repositories\stock_price_repository.py" id="62">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="2690" y="720" width="120" height="50" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="86" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="63" target="76">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\repositories\stock_repository.py" link="D:\Summer 2026\samp\repositories\stock_repository.py" id="63">
+                    <mxCell style="text;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fad9d5;strokeColor=#ae4132;" vertex="1" parent="1">
+                        <mxGeometry x="2320" y="650" width="130" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="66" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="45" target="63">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="101" style="edgeStyle=none;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="68" target="35">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="125" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="68" target="118">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\setup\setup_db.py" link="D:\Summer 2026\samp\setup\setup_db.py" id="68">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#bac8d3;strokeColor=#23445d;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="1390" y="590" width="150" height="50" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="69" style="html=1;entryX=0.421;entryY=-0.038;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="36" target="68">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="92" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="72" target="77">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="98" style="edgeStyle=none;html=1;entryX=1.006;entryY=0.589;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="72" target="35">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\services\analytic_services.py" link="D:\Summer 2026\samp\services\analytic_services.py" id="72">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="2660" y="440" width="130" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="114" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="73" target="26">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="116" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="73" target="25">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\services\data_cleaning_services.py" link="D:\Summer 2026\samp\services\data_cleaning_services.py" id="73">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="1330" y="-210" width="160" height="70" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="100" style="edgeStyle=none;html=1;entryX=0.909;entryY=1.039;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="74" target="35">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\services\pandas_analytics.py" link="D:\Summer 2026\samp\services\pandas_analytics.py" id="74">
+                    <mxCell style="text;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fad7ac;strokeColor=#b46504;" vertex="1" parent="1">
+                        <mxGeometry x="2660" y="290" width="180" height="70" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="91" style="edgeStyle=none;html=1;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="75" target="77">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="2410" y="450" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="97" style="edgeStyle=none;html=1;entryX=0.75;entryY=0.25;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="75" target="35">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1820" y="510" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\services\ranking_services.py" link="D:\Summer 2026\samp\services\ranking_services.py" id="75">
+                    <mxCell style="text;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#fad7ac;strokeColor=#b46504;" vertex="1" parent="1">
+                        <mxGeometry x="1930" y="80" width="160" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="94" style="edgeStyle=none;html=1;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="76" target="77">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="96" style="edgeStyle=none;html=1;entryX=0.9;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="76" target="35">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\services\stock_services.py" link="D:\Summer 2026\samp\services\stock_services.py" id="76">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="2000" y="420" width="140" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="95" value="`" style="edgeStyle=none;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="77" target="35">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="134" style="edgeStyle=none;html=1;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="77" target="130">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\services\report_service.py" link="D:\Summer 2026\samp\services\report_service.py" id="77">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#fad7ac;strokeColor=#b46504;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="2290" y="205" width="150" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="78" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="32" target="73">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="127" style="edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="102" target="104">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\sql\create_tables.sql" link="D:\Summer 2026\samp\sql\create_tables.sql" id="102">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="1580" y="810" width="130" height="70" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="123" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="103" target="62">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\sql\database.py" link="D:\Summer 2026\samp\sql\database.py" id="103">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="2030" y="830" width="130" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="128" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="104" target="68">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\sql\insert_data.sql" link="D:\Summer 2026\samp\sql\insert_data.sql" id="104">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="1280" y="790" width="140" height="70" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="D:\Summer 2026\samp\sql\queries.sql" link="D:\Summer 2026\samp\sql\queries.sql" id="108">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;sketch=1;curveFitting=1;jiggle=2;" vertex="1" parent="1">
+                        <mxGeometry x="1780" y="1190" width="150" height="50" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="121" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="110" target="104">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\sql\update_sql_data_insertion.py" link="D:\Summer 2026\samp\sql\update_sql_data_insertion.py" id="110">
+                    <mxCell style="text;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#b0e3e6;strokeColor=#0e8088;" vertex="1" parent="1">
+                        <mxGeometry x="1140" y="1070" width="150" height="50" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="112" style="edgeStyle=none;html=1;entryX=0.412;entryY=1.058;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="27" target="73">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\docker-compose.yml" link="D:\Summer 2026\samp\docker-compose.yml" id="118">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#e6d0de;strokeColor=#996185;gradientColor=#d5739d;" vertex="1" parent="1">
+                        <mxGeometry x="1550" y="480" width="100" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="122" style="edgeStyle=none;html=1;entryX=0.013;entryY=0.624;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="103" target="63">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="126" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="118" target="35">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="132" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="129" target="130">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="133" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="129" target="131">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="129" value="D:\Summer 2026\samp\report" style="text;whiteSpace=wrap;html=1;fillColor=#fff2cc;gradientColor=#ffd966;strokeColor=#d6b656;" vertex="1" parent="1">
+                    <mxGeometry x="1890" y="-340" width="190" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="138" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="130" target="35">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <UserObject label="D:\Summer 2026\samp\report\market_report.txt" link="D:\Summer 2026\samp\report\market_report.txt" id="130">
+                    <mxCell style="text;whiteSpace=wrap;html=1;sketch=1;curveFitting=1;jiggle=2;fillColor=#e3c800;strokeColor=#B09500;fontColor=#000000;" vertex="1" parent="1">
+                        <mxGeometry x="1805" y="-250" width="100" height="40" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="D:\Summer 2026\samp\report\summary.txt" link="D:\Summer 2026\samp\report\summary.txt" id="131">
+                    <mxCell style="text;whiteSpace=wrap;html=1;fillColor=#e3c800;strokeColor=#B09500;sketch=1;curveFitting=1;jiggle=2;fontColor=#000000;" vertex="1" parent="1">
+                        <mxGeometry x="2050" y="-260" width="120" height="40" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <mxCell id="135" style="edgeStyle=none;html=1;entryX=0.558;entryY=1.072;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="77" target="131">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="139" style="edgeStyle=none;html=1;entryX=0.7;entryY=0.088;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="131" target="35">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

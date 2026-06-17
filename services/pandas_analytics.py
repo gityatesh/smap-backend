@@ -39,20 +39,19 @@ class PandasAnalyticsService:
         print(high_volume)
 
 
-    # def show_grouped_analysis(self):
-    #     print("\n--- TASK 6: GROUPED SECTOR ANALYSIS ---")
+    def show_grouped_analysis(self):
+        print("\n--- TASK 6: GROUPED SECTOR ANALYSIS ---")
         
-    #     # Group by Sector and calculate the average price and total volume
-    #     sector_summary = self.df.groupby('sector').agg({
-    #         'symbol': 'count',         # Counts how many stocks are in the sector
-    #         'close_price': 'mean',     # Calculates the average closing price
-    #         'volume': 'sum'            # Adds up the total trading volume
-    #     }).reset_index() # Resets index to make it look clean
+        # Group by Sector and calculate the average price and total volume
+        sector_summary = self.df.groupby('symbol').agg({
+            'close_price': 'mean',     # Calculates the average closing price
+            'volume': 'sum'            # Adds up the total trading volume
+        }).reset_index() # Resets index to make it look clean
 
-    #     # Rename columns for a professional presentation
-    #     sector_summary.columns = ['Sector', 'Total Stocks', 'Avg Price (INR)', 'Total Volume']
+        # Rename columns for a professional presentation
+        sector_summary.columns = ['Symbol', 'Avg Price (INR)', 'Total Volume']
         
-    #     # Format the Average Price to 2 decimal places
-    #     sector_summary['Avg Price (INR)'] = sector_summary['Avg Price (INR)'].round(2)
+        # Format the Average Price to 2 decimal places
+        sector_summary['Avg Price (INR)'] = sector_summary['Avg Price (INR)'].round(2)
         
-    #     print(sector_summary.to_string(index=True))
+        print(sector_summary.to_string(index=True))
