@@ -40,7 +40,7 @@ Do not use local background services. SMAP relies on a portable Docker environme
 docker-compose up -d
 ```
 
-
+---
 ## 🚀 Recent Updates (Week 3: Data Analytics Integration)
 
 The platform has been heavily upgraded to feature a complete **ETL (Extract, Transform, Load)** architecture using Pandas, ensuring the PostgreSQL database is protected from toxic data and formatting errors.
