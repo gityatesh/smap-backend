@@ -5,13 +5,15 @@ from services.report_service import ReportService
 from services.pandas_analytics import PandasAnalyticsService
 import setup.setup_db
 import sql.update_sql_data_insertion
-import etl.data_cleaning_services 
+import services.data_cleaning_services 
+from services.graph_services import GraphingService
 
 def main():
     analytics = AnalyticalService()
     stock = StockServices()
     ranking = RankStocks()
     report = ReportService()
+    graph = GraphingService()
     
     while True:
         print("------ STOCK MARKET ANALYTICS PLATFORM (SMAP) ------")
@@ -21,7 +23,8 @@ def main():
         print("4. View Rankings")
         print("5. Generate Reports")
         print("6. Advance Pandas Analytics")
-        print('7. Exit')
+        print("7. Graph service")
+        print('8. Exit')
         
         choice = int(input('Enter your choice: '))
         
@@ -90,7 +93,17 @@ def main():
             PandasAnalyticsService().show_filtered_views()
             PandasAnalyticsService().show_grouped_analysis()
             
-        elif choice == 7:
+        elif choice==7:
+            print('1. Time-Series | 2. Stock Activity | 3. Volatility')
+            i = int(input('Choose Graph Type:'))
+            if i==1: 
+                stock = input('Enter stock: ')
+                graph.timeseries(stock)
+            elif i==2:graph.bargraphvol()
+            elif i==3:graph.price_fluctuation_graph()
+            else:print('Invalid choice!!')
+            
+        elif choice == 8:
             print('Shutting down...\n ThankYou for using!')
             break
         else:
@@ -99,5 +112,5 @@ def main():
 if __name__ == '__main__':
     sql.update_sql_data_insertion.update_insert_sql()
     setup.setup_db.initialize_database()
-    etl.data_cleaning_services.import_tranform_load()
+    services.data_cleaning_services.import_tranform_load()
     main()
