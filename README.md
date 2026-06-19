@@ -41,18 +41,46 @@ docker-compose up -d
 ```
 
 ---
-## 🚀 Recent Updates (Week 3: Data Analytics Integration)
+## Version History & Roadmap
 
-The platform has been heavily upgraded to feature a complete **ETL (Extract, Transform, Load)** architecture using Pandas, ensuring the PostgreSQL database is protected from toxic data and formatting errors.
+Documenting the architectural evolution of the **Stock Market Analysis Platform (SMAP)**.
 
-### Key Architectural Upgrades:
-* **The Cleaning Engine (`services/data_cleaning_services.py`):** Intercepts raw `.xlsx`/`.csv` files and aggressively sanitizes them. Fixes localized string formatting (comma decimals), standardizes datetime schemas (`YYYY-MM-DD`), and strips trailing spaces to prevent SQL foreign key lookup failures.
-* **Strict Business Rule Validation:** Utilizes Pandas vectorization to drop rows violating core market logic (e.g., volume < 0, High Price < Open Price) before database ingestion.
-* **Dynamic SQL Generation (`update_sql_data_insertion.py`):** Python automatically translates the clean Pandas DataFrame into raw `.sql` commands, utilizing inline subqueries `(SELECT id FROM stocks WHERE symbol=...)` to dynamically map relational Foreign Keys on the fly.
-* **Advanced Pandas Analytics (`services/pandas_analytics.py`):** A decoupled analytics service that allows high-speed, in-memory aggregation and filtering, bypassing the need for heavy analytical queries on the live production database.
+### v1.0.0 — The Foundation
+- Established the base **N-Tier Architecture**.
+- Implemented a **containerized PostgreSQL database** for data management.
+- Relied entirely on **raw SQL queries** for mathematical computations, ranking logic, and analytical processing.
+- Focused on creating a scalable and modular backend structure.
 
-### Pipeline Execution:
-1. Ensure your Docker database is running and the base tables are created.
-2. Run the cleaning service to sanitize the data and generate the Data Quality Audit Report.
-3. Run the SQL Generator to prep the clean data for injection.
-4. Launch the main application: `python main.py`
+### v2.0.0 — The Data Quality Engine
+- Integrated **Pandas** for offline data cleaning and preprocessing.
+- Introduced strict **business rule validation** mechanisms.
+- Implemented automated **Data Quality Reporting** for identifying inconsistencies and missing values.
+- Added dynamic **Python-to-SQL script generation** to streamline database operations and reduce manual query development.
+
+### v3.0.0 — Live Ingestion & Visual Analytics *(Current Release)*
+- Deployed an automated **Yahoo Finance ETL Pipeline** for live market data extraction.
+- Enabled scheduled data ingestion and transformation workflows.
+- Integrated **Matplotlib** and **Seaborn** for dynamic visualization and reporting.
+- Added graphical insights including trends, rankings, and performance analytics.
+- Improved reporting capabilities with data-driven visual dashboards.
+
+### v4.0.0 — The Web Transition *(Upcoming)*
+- Migrating the terminal-based CLI application into a full-stack **Django** web platform.
+- Developing an interactive browser-based dashboard for end users.
+- Exposing backend databases and analytical services through web interfaces.
+- Enabling real-time visualization, filtering, and portfolio analysis features.
+- Preparing the platform for multi-user access, authentication, and future cloud deployment.
+
+---
+
+### Future Vision
+
+The long-term objective of SMAP is to evolve into a comprehensive financial analytics platform that combines:
+
+- Real-time market intelligence
+- Automated data quality assurance
+- Advanced analytical reporting
+- Interactive web-based visualization
+- Scalable cloud-native architecture
+
+This roadmap reflects the continuous progression from a database-centric analytical tool to a complete end-to-end financial decision-support system.

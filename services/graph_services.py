@@ -26,7 +26,7 @@ class GraphingService:
             return 
         df = pd.DataFrame(rows)
         
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(10, 8))
         sns.lineplot(data=df, x = 'trade_date', y='close_price', marker = 'o')
         plt.title(f'{symbol}-Closing Price Trend', fontsize = 14, fontweight = 'bold')
         plt.xlabel('Trade Date', fontsize = 12)
@@ -53,10 +53,10 @@ class GraphingService:
             print('Error. Cannot find database!')
             
         df = pd.DataFrame(rows)
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(10, 8))
         sns.barplot(data=df, x='symbol',y='average_volume', hue = 'symbol', palette='viridis', legend = False)
         plt.title('Average Trading Volume by Stock', fontsize = 14, fontweight = 'bold')
-        plt.xlabel('Stock', fontsize = 12)
+        plt.xlabel('Stock', fontsize = 8)
         plt.ylabel('Average Volume', fontsize = 12)
         plt.xticks(rotation=45)
         
@@ -77,10 +77,10 @@ class GraphingService:
         rows= self.db.execute_read_query(query)
         df = pd.DataFrame(rows)
         
-        plt.figure(figsize=(10, 6))
+        plt.figure(figsize=(10, 8))
         sns.barplot(data=df, x='symbol', y='volatility', hue = 'symbol', palette='magma', legend = False)
         plt.title('Stock Volatility Analysis', fontsize = 16, fontweight = 'bold')
-        plt.xlabel('Stock', fontsize = 12)
+        plt.xlabel('Stock', fontsize = 8)
         plt.ylabel('Average Price Spread', fontsize = 12)
         plt.xticks(rotation=45)
         

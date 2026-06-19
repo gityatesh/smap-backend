@@ -17,16 +17,16 @@ DELETE FROM stocks;\n\n"""
         
         master_stocks_sql = """-- 1. Master Stocks Table (Dimension)
 INSERT INTO stocks (symbol, company_name, sector, market_cap) VALUES
-('RELIANCE', 'Reliance Industries', 'Energy', 'Large Cap'),
-('TCS', 'Tata Consultancy Services', 'Technology', 'Large Cap'),
-('INFY', 'Infosys', 'Technology', 'Large Cap'),
-('HDFCBANK', 'HDFC Bank', 'Banking', 'Large Cap'),
-('ICICIBANK', 'ICICI Bank', 'Banking', 'Large Cap'),
-('ITC', 'ITC Limited', 'Consumer Goods', 'Large Cap'),
-('BHARTIARTL', 'Bharti Airtel', 'Telecom', 'Large Cap'),
-('LT', 'Larsen & Toubro', 'Infrastructure', 'Large Cap'),
-('HINDUNILVR', 'Hindustan Unilever', 'Consumer Goods', 'Large Cap'),
-('SBIN', 'State Bank of India', 'Banking', 'Large Cap');\n
+('RELIANCE.NS', 'Reliance Industries', 'Energy', 'Large Cap'),
+('TCS.NS', 'Tata Consultancy Services', 'Technology', 'Large Cap'),
+('INFY.NS', 'Infosys', 'Technology', 'Large Cap'),
+('HDFCBANK.NS', 'HDFC Bank', 'Banking', 'Large Cap'),
+('ICICIBANK.NS', 'ICICI Bank', 'Banking', 'Large Cap'),
+('ITC.NS', 'ITC Limited', 'Consumer Goods', 'Large Cap'),
+('BHARTIARTL.NS', 'Bharti Airtel', 'Telecom', 'Large Cap'),
+('LT.NS', 'Larsen & Toubro', 'Infrastructure', 'Large Cap'),
+('HINDUNILVR.NS', 'Hindustan Unilever', 'Consumer Goods', 'Large Cap'),
+('SBIN.NS', 'State Bank of India', 'Banking', 'Large Cap');\n
 """
         file.write(master_stocks_sql)
             

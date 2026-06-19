@@ -7,6 +7,7 @@ import setup.setup_db
 import sql.update_sql_data_insertion
 import services.data_cleaning_services 
 from services.graph_services import GraphingService
+from etl.etl_pipeline import ETLPipeline
 
 def main():
     analytics = AnalyticalService()
@@ -16,7 +17,7 @@ def main():
     graph = GraphingService()
     
     while True:
-        print("------ STOCK MARKET ANALYTICS PLATFORM (SMAP) ------")
+        print("----------Menu----------")
         print("1. View All Stocks")
         print("2. Search Stock")
         print("3. View Analytics")
@@ -110,7 +111,40 @@ def main():
             print('Invalid choice! Please try again.')
             
 if __name__ == '__main__':
-    sql.update_sql_data_insertion.update_insert_sql()
-    setup.setup_db.initialize_database()
-    services.data_cleaning_services.import_tranform_load()
+    print('------ STOCK MARKET ANALYTICS PLATFORM (SMAP) ------')
+    print('1. Boot with existing database data')
+    print('2. Fetch fresh market data from Yahoo Finance')
+    
+    try:
+        boot_choice = int(input('Enter your Choice: '))
+    except ValueError:
+        boot_choice = 1 # Default to existing if they hit enter or type a letter
+
+    if boot_choice == 2:
+        print("\n--- LIVE DATA INGESTION ---")
+        days = 50
+        print(f"Fetching the last {days} days of market data from Yahoo Finance...")
+        
+        # FIX 1: The correct ticker
+        target_stocks = [
+            'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'HDFCBANK.NS', 
+            'ICICIBANK.NS', 'ITC.NS', 'BHARTIARTL.NS', 'LT.NS', 
+            'HINDUNILVR.NS', 'SBIN.NS'
+        ]
+        pipeline = ETLPipeline(symbols=target_stocks, days=days)
+        success = pipeline.run()
+        
+        if success:
+            print("\n✅ New data extracted! Running ETL & Cleaning pipeline...")
+            
+            # FIX 2: Chronological execution order!
+            services.data_cleaning_services.import_tranform_load() # <-- MUST CLEAN FIRST!
+            sql.update_sql_data_insertion.update_insert_sql() # <-- THEN GENERATE SQL!
+            setup.setup_db.initialize_database() # <-- THEN INSERT TO DB!
+            
+            print("\n Database fully synchronized with live market data.")
+        else:
+            print("\n Failed to ingest live data. Booting with existing data...")
+            
+    # Launch the main menu regardless of which boot option they chose
     main()

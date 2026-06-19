@@ -1,14 +1,14 @@
 --------Cleanup report--------
-missing value summary: 4
-duplicate value summary: 2
+missing value summary: 0
+duplicate value summary: 0
 
 --------Validation summary--------
-Negative price failures: 1
-Negative volume failures: 1
-High < Open failures: 2
-High < Low failures: 1
+Negative price failures: 0
+Negative volume failures: 0
+High < Open failures: 0
+High < Low failures: 0
 
 --------Cleaning summary--------
-Starting records: 40
-Final clean records: 27
-Total bad rows deleted: 13
+Starting records: 370
+Final clean records: 370
+Total bad rows deleted: 0

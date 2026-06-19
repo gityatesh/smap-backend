@@ -1,16 +1,19 @@
 import pandas as pd
 import os
 def import_tranform_load():
-    pathtoxl = 'data/dirty_stock_prices.xlsx'
-    try:
-        df = pd.read_excel(pathtoxl)
-        pathtocsv = 'data/dirty_stock_prices_v2.csv'
-        try: 
-            df.to_csv(pathtocsv, index= False)
-        except FileNotFoundError:
-            print(f'{pathtocsv} not found!')
-    except FileNotFoundError:
-        print(f'{pathtoxl} not found!')
+    
+    # pathtoxl = 'data/dirty_stock_prices.xlsx'
+    # try:
+        # df = pd.read_excel(pathtoxl)
+        
+    pathtocsv = 'data/loaded_stock_data.csv'
+    # try: 
+    #     df.to_csv(pathtocsv, index= False)
+    # except FileNotFoundError:
+    #     print(f'{pathtocsv} not found!')
+        
+    # except FileNotFoundError:
+        # print(f'{pathtoxl} not found!')
         
     try:
         df = pd.read_csv(pathtocsv)

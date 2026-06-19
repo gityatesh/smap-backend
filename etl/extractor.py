@@ -2,7 +2,7 @@ import pandas as pd
 from data_sources.yahoo_finance_source import YahooFinanceSource
 import os
 
-class Exctractor:
+class Extractor:
     def __init__(self):
         self.source = YahooFinanceSource() #we can switch the source later
         self.output = 'data/raw_stock_data.csv'
@@ -15,7 +15,7 @@ class Exctractor:
         if not df.empty:
             os.makedirs('data', exist_ok=True)
             df.to_csv(self.output, index=False)
-            print(f'Raw data saved to {self.output}')
+            print(f'Raw data saved to [{self.output}]')
             return self.output
         else:
             print('Extraction failed. No data to save!')
