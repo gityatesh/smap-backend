@@ -9,6 +9,6 @@ High < Open failures: 0
 High < Low failures: 0
 
 --------Cleaning summary--------
-Starting records: 370
-Final clean records: 370
+Starting records: 360
+Final clean records: 360
 Total bad rows deleted: 0

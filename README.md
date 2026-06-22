@@ -1,43 +1,46 @@
 # 📈 Stock Market Analytics Platform (SMAP)
 
-> A production-ready, containerized backend system designed to analyze, rank, and report on daily stock market data. 
+> A production-ready, containerized system designed to ingest, clean, and serve daily stock market data, currently transitioning into a full-stack Django web application.
 
-Most stock market scripts pull data into Python and use slow `for` loops to calculate metrics. **SMAP is built differently.** It is engineered using a professional N-Tier architecture, offloading the heavy mathematical lifting directly to a containerized PostgreSQL engine for maximum performance.
+Most stock market scripts pull data into Python and use slow `for` loops to calculate metrics. **SMAP is built differently.** It is engineered using a decoupled, N-Tier architecture, utilizing an automated Pandas ETL pipeline for data ingestion, a containerized PostgreSQL engine for data storage, and a Django web framework for data delivery.
 
 ## ✨ Core Features
 
-* 📊 **High-Performance Analytics:** Calculates market averages, identifies extreme volatility (highest/lowest prices), and tracks maximum trading volumes.
-* 🏆 **Native SQL Ranking:** Bypasses slow Python sorting by utilizing enterprise-grade SQL Window Functions (`RANK() OVER`) to instantly rank stocks by price, volume, and daily growth percentages.
-* 💾 **Persistent Containerization:** The database runs completely isolated inside Docker. Using explicit Volume Mapping, the data persists safely on the hard drive even if the container is destroyed.
-* 📄 **Automated File I/O:** Programmatically generates highly formatted, human-readable executive summaries (`summary.txt`) and master directories (`market_report.txt`).
-* 🖥️ **Interactive Terminal GUI:** Features a clean, menu-driven CLI that unpacks complex data dictionaries into perfectly aligned, readable dashboards.
+* 📊 **Automated ETL Pipeline:** Extracts live market data from Yahoo Finance, cleans anomalies using Pandas, and enforces strict business validation rules.
+* 💾 **Containerized Vault:** The PostgreSQL database runs completely isolated inside Docker. Using explicit Volume Mapping, the data persists safely on the hard drive even if the container is destroyed.
+* 🌉 **Django ORM Integration:** Replaces raw SQL scripts with a secure, Pythonic Object-Relational Mapper to seamlessly bridge the web server to the database.
+* 🖥️ **Interactive Terminal GUI (Legacy):** Features a clean, menu-driven CLI that unpacks complex data dictionaries into perfectly aligned, readable dashboards. (Currently being migrated to Web Views).
+* 📈 **Visual Analytics:** Generates dynamic graphical insights including trends, rankings, and performance analytics using Matplotlib and Seaborn.
 
 ---
 
 ## 🏗️ System Architecture
 
-This project strictly adheres to the **Separation of Concerns** principle. The codebase is modular and divided into independent layers:
+This project strictly adheres to the **Separation of Concerns** principle. The architecture is decoupled into an ingestion engine and a web presentation layer, meeting at a shared database:
 
-* **`sql/` (Infrastructure):** Contains the database connection string and the raw SQL queries/table schemas.
-* **`models/` (Data Objects):** Python Dataclasses that define the structure of a Stock and a StockPrice.
-* **`repositories/` (Data Access Layer):** The only layer allowed to speak to PostgreSQL. Handles all `JOIN`s and data extraction.
-* **`services/` (Business Logic):** The brain of the app. Requests data from the repositories, packages it, and executes the file writing logic.
-* **`main.py` (Presentation Layer):** The infinite-loop controller that routes user keyboard inputs to the correct services and beautifully formats the output.
+* **`etl/` (Data Engineering):** Contains the Extractor, Transformer, and Loader scripts. Uses Pandas to clean live API data before it ever touches the database.
+* **`smap_web/` (The Web Server):** The master Django project configuration, routing, and WSGI/ASGI gateways.
+* **`stocks/` (The Application):** The specific Django app handling financial data. Contains the `models.py` (database blueprints) and future API views.
+* **`docker-compose.yml` (Infrastructure):** Defines the portable PostgreSQL environment.
 
 ---
 
 ## 🚀 Quick Start Guide
 
-
 ### Prerequisites
 * Python 3.10+
 * Docker Desktop installed and running
-* `psycopg2` module installed
+* Virtual Environment configured
 
 ### 1. Spin up the Infrastructure
-Do not use local background services. SMAP relies on a portable Docker environment. Open your terminal in the project root and run:
+SMAP relies on a portable Docker environment for its database. Open your terminal in the project root and run:
 ```bash
 docker-compose up -d
+```
+Activate your virtual environment, navigate into the Django project directory, and launch the local server:
+```bash
+cd smap_web
+python manage.py runserver
 ```
 
 ---
@@ -45,42 +48,60 @@ docker-compose up -d
 
 Documenting the architectural evolution of the **Stock Market Analysis Platform (SMAP)**.
 
-### v1.0.0 — The Foundation
-- Established the base **N-Tier Architecture**.
-- Implemented a **containerized PostgreSQL database** for data management.
-- Relied entirely on **raw SQL queries** for mathematical computations, ranking logic, and analytical processing.
-- Focused on creating a scalable and modular backend structure.
+### v1.0.0 — Foundation
 
-### v2.0.0 — The Data Quality Engine
-- Integrated **Pandas** for offline data cleaning and preprocessing.
-- Introduced strict **business rule validation** mechanisms.
-- Implemented automated **Data Quality Reporting** for identifying inconsistencies and missing values.
-- Added dynamic **Python-to-SQL script generation** to streamline database operations and reduce manual query development.
-
-### v3.0.0 — Live Ingestion & Visual Analytics *(Current Release)*
-- Deployed an automated **Yahoo Finance ETL Pipeline** for live market data extraction.
-- Enabled scheduled data ingestion and transformation workflows.
-- Integrated **Matplotlib** and **Seaborn** for dynamic visualization and reporting.
-- Added graphical insights including trends, rankings, and performance analytics.
-- Improved reporting capabilities with data-driven visual dashboards.
-
-### v4.0.0 — The Web Transition *(Upcoming)*
-- Migrating the terminal-based CLI application into a full-stack **Django** web platform.
-- Developing an interactive browser-based dashboard for end users.
-- Exposing backend databases and analytical services through web interfaces.
-- Enabling real-time visualization, filtering, and portfolio analysis features.
-- Preparing the platform for multi-user access, authentication, and future cloud deployment.
+- Established the core **N-Tier Architecture**.
+- Deployed a containerized **PostgreSQL** database for persistent data storage and management.
+- Implemented market analytics and computations using raw SQL queries.
 
 ---
 
-### Future Vision
+### v2.0.0 — Data Quality Engine
 
-The long-term objective of SMAP is to evolve into a comprehensive financial analytics platform that combines:
+- Integrated **Pandas** for data cleaning, transformation, and preprocessing.
+- Developed an automated **Data Quality Reporting** system to identify missing values, inconsistencies, and data anomalies.
+- Improved overall data reliability and validation workflows.
 
-- Real-time market intelligence
-- Automated data quality assurance
-- Advanced analytical reporting
-- Interactive web-based visualization
-- Scalable cloud-native architecture
+---
 
-This roadmap reflects the continuous progression from a database-centric analytical tool to a complete end-to-end financial decision-support system.
+### v3.0.0 — Live Data Ingestion & Visual Analytics
+
+- Implemented an automated **Yahoo Finance ETL Pipeline** for live market data acquisition.
+- Established data extraction, transformation, and loading workflows for continuous updates.
+- Integrated **Matplotlib** and **Seaborn** for analytical visualization and reporting.
+- Enhanced the platform with graphical insights and trend analysis capabilities.
+
+---
+
+### v4.0.0 — Web Architecture *(In Progress)*
+
+- Migrating the terminal-based application into a full-stack **Django** web platform.
+- Replacing direct database interactions and raw SQL operations with Django's **Object-Relational Mapping (ORM)**.
+- Designed and implemented the core relational models:
+  - `DataSource`
+  - `Stock`
+  - `StockPrice`
+- Currently integrating the ETL pipeline with the Django ORM.
+- Developing RESTful APIs and backend services for web-based data access.
+
+---
+
+### v5.0.0 — Interactive Dashboard *(Planned)*
+
+- Building a browser-based interactive dashboard for end users.
+- Enabling real-time market visualization, filtering, and portfolio analysis.
+- Expanding API capabilities to support advanced analytics and frontend integrations.
+- Implementing user authentication, authorization, and multi-user support.
+- Preparing the platform for cloud deployment and production scalability.
+
+---
+
+### Long-Term Vision
+
+Transform SMAP into a comprehensive stock market intelligence platform capable of:
+
+- Automated data acquisition and validation.
+- Advanced financial analytics and forecasting.
+- Interactive dashboards and portfolio management.
+- Scalable cloud-native deployment.
+- Multi-user collaboration and personalized insights.
