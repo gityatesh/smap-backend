@@ -127,7 +127,7 @@ if __name__ == '__main__':
         
         # FIX 1: The correct ticker
         target_stocks = [
-            'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'HDFCBANK.NS', 
+            'AAPL', 'TSLA','RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'HDFCBANK.NS', 
             'ICICIBANK.NS', 'ITC.NS', 'BHARTIARTL.NS', 'LT.NS', 
             'HINDUNILVR.NS', 'SBIN.NS'
         ]
@@ -135,7 +135,7 @@ if __name__ == '__main__':
         success = pipeline.run()
         
         if success:
-            print("\n✅ New data extracted! Running ETL & Cleaning pipeline...")
+            print("\n New data extracted! Running ETL & Cleaning pipeline...")
             
             # FIX 2: Chronological execution order!
             services.data_cleaning_services.import_tranform_load() # <-- MUST CLEAN FIRST!

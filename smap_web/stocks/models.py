@@ -1,9 +1,14 @@
 from django.db import models
 '''this file stores our data architecture which we'll import from our database'''
 class DataSource(models.Model):
-    '''where is our data coming from'''
+    '''where is our data coming from, stores the name and the url link'''
     name = models.CharField(max_length=100, unique=True)
-    url_api = models.URLField(blank=True, null=True)
+    api_url = models.URLField(blank=True, null=True)
+    
+    #to automatically edit the current date
+    last_fetched_date = models.DateTimeField(auto_now=True, null=True)
+    #will tell django to create a table for raw data injection
+    raw_json = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return self.name
