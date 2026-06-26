@@ -40,16 +40,18 @@ class ETLPipeline:
         print('Process completed successfully!')
         print('Final data securely staged in PostgreSQL vault.')
         return True
-#testing
-# if __name__ == "__main__":
-#     # 1. Define the stocks we want to pull (using your favorites!)
-#     symbols_to_track = ['AAPL', 'TSLA', 'TCS.NS']
+# testing
+if __name__ == "__main__":
+    # 1. Define the stocks we want to pull (using your favorites!)
+    symbols_to_track = ['AAPL', 'TSLA','RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'HDFCBANK.NS', 
+            'ICICIBANK.NS', 'ITC.NS', 'BHARTIARTL.NS', 'LT.NS', 
+            'HINDUNILVR.NS', 'SBIN.NS']
     
-#     # 2. Instantiate the pipeline (Build the car)
-#     pipeline = ETLPipeline(symbols=symbols_to_track, days=30)
+    # 2. Instantiate the pipeline (Build the car)
+    pipeline = ETLPipeline(symbols=symbols_to_track, days=30)
     
-#     # 3. Execute the pipeline (Turn the key!)
-#     pipeline.run()
+    # 3. Execute the pipeline (Turn the key!)
+    pipeline.run()
     
     
     
