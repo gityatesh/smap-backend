@@ -1,57 +1,66 @@
 from etl.extractor import Extractor
 from etl.transformer import Transformer
 from etl.loader import PostgresORMLoader
+from etl.scraper_extractor import WebScraperExtractor 
 import pandas as pd
 
 class ETLPipeline:
     def __init__(self, symbols:list, days:int = 30):
         self.days = days
         self.symbols = symbols
+
+    def run_pipeline(self):
+        print("Starting In-Memory ETL Pipeline...")
         
-    def run(self):
-        '''starts the extract->transform->load sequence'''
-        #extracting
+        # 1. Extract (Primary Engine: API)
+        print("🌐 Attempting primary extraction via API...")
         extractor = Extractor()
         raw_data = extractor.extract(self.symbols, self.days)
-        if not raw_data:
-            print('Process failed at extraction!')
-            return False
         
-        #transforming
-        transformer = Transformer(raw_data)
-        transformed_file_path = transformer.transform()
-        if transformed_file_path is None:
-            print('Process stopped at transformation!')
+        # 1.5 Extract (Fallback Engine: HTML Scraper)
+        if raw_data is None or raw_data.empty:
+            print("⚠️ API Failed or returned empty! Booting up Web Scraper Fallback...")
+            scraper = WebScraperExtractor()
+            scraper_data = scraper.extract_live_batch(self.symbols)
+            
+            # THE FIX: Assign the scraper's data back to the main variable
+            raw_data = scraper_data
+            
+        # If BOTH fail, abort the mission
+        if raw_data is None or raw_data.empty:
+            print("❌ FATAL: Both API and Scraper failed. Aborting pipeline.")
             return False
-        cleaned_df = pd.read_csv(transformed_file_path)
-        if cleaned_df.empty:
-            print('Empty Transformend file')
+
+        # 2. Transform 
+        transformer = Transformer()
+        clean_df = transformer.transform(raw_data)
+        
+        if clean_df is None or clean_df.empty:
+            print('Process stopped at transformation! Empty dataframe returned.')
             return False
-        
-        
-        #loading(django version)
+
+        # 3. Load 
         loader = PostgresORMLoader()
         try:
-            loader.load(cleaned_df)
+            loader.load(clean_df)
         except Exception as e:
             print(f'Process failed at loading! Error: {e}')
             return False
-    
-        print('Process completed successfully!')
-        print('Final data securely staged in PostgreSQL vault.')
+
+        print("Pipeline completed successfully! No CSVs were harmed.")
         return True
-# testing
+
+
 if __name__ == "__main__":
-    # 1. Define the stocks we want to pull (using your favorites!)
-    symbols_to_track = ['AAPL', 'TSLA','RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'HDFCBANK.NS', 
-            'ICICIBANK.NS', 'ITC.NS', 'BHARTIARTL.NS', 'LT.NS', 
-            'HINDUNILVR.NS', 'SBIN.NS']
+    # Define the stocks we want to pull
+    symbols_to_track = [
+        'AAPL', 'TSLA', 'RELIANCE.NS', 'TCS.NS', 'INFY.NS', 
+        'HDFCBANK.NS', 'ICICIBANK.NS', 'ITC.NS', 'BHARTIARTL.NS', 
+        'LT.NS', 'HINDUNILVR.NS', 'SBIN.NS'
+    ]
     
-    # 2. Instantiate the pipeline (Build the car)
+    # Instantiate the pipeline
     pipeline = ETLPipeline(symbols=symbols_to_track, days=30)
     
-    # 3. Execute the pipeline (Turn the key!)
-    pipeline.run()
-    
-    
-    
+    # Execute the pipeline
+    pipeline.run_pipeline()

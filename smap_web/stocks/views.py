@@ -2,12 +2,17 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Max, Min
 from stocks.models import Stock, StockPrice
+from django.core.paginator import Paginator
 # Create your views here.
 
 #get/stocks
 def get_stocks(request):
-    '''fetches all the stock and return it in JSON fromat.'''
+    '''fetches the search result of the stock and return it in JSON fromat.'''
     stocks = Stock.objects.all()
+    search_query = request.GET.get('search')
+    if search_query:
+        stocks = stocks.filter(symbol__icontains = search_query)
+        
     data=[]
     for stock in stocks:
         data.append({
@@ -15,6 +20,7 @@ def get_stocks(request):
             "Company_name": stock.company_name
         })
     return JsonResponse(data,  safe=False)#return list instead of dict
+
 
 def get_desired_stock(request, symbol):
     '''fetches only a specific required stock'''
@@ -31,14 +37,17 @@ def get_desired_stock(request, symbol):
     except Stock.DoesNotExist:
         return JsonResponse({'error': f'stock {symbol} not found!'})
 
+
 #price details of a stock    
 def get_stock_prices(request, symbol):
     try:
         stock = Stock.objects.get(symbol = symbol.upper())
         prices = StockPrice.objects.filter(stock = stock).order_by('-trade_date')
-        
+        paginator = Paginator(prices, 20) #20 prices per page
+        page_number = request.GET.get('page',1)
+        page_obj = paginator.get_page(page_number)
         data=[]
-        for price in prices:
+        for price in page_obj:
             data = [{
                 'Date':price.trade_date,
                 "open_price": price.open_price,
@@ -47,10 +56,20 @@ def get_stock_prices(request, symbol):
                 "close_price": price.close_price,
                 "volume": price.volume
             }]
-        return JsonResponse(data, safe=False)
-    
+        response_payload = {
+            'metadata':{
+                'total_records':paginator.count,
+                'total_pages':paginator.num_pages,
+                'current_page':page_obj.number,
+                'has_next_page':page_obj.has_next(),
+                'has_previous_page':page_obj.has_previous(),
+            },
+            'data':data
+        }
+        return JsonResponse(response_payload)
     except stock.DoesNotExist:
         return JsonResponse({"error": f"Stock '{symbol}' not found."}, status=404)
+    
     
 #getting the market summary
 def get_market_summary(request):
@@ -68,6 +87,7 @@ def get_market_summary(request):
         "lowest_closing_price": stats['lowest_closing_price']
     }
     return JsonResponse(data)
+
 
 # gets the top 5 stocks (close_price)
 def get_top_stocks(request):
