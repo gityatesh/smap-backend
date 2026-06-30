@@ -8,7 +8,6 @@ class Extractor:
         # self.output = 'data/raw_stock_data.csv'
         
     def extract(self, symbols:list, days:int = 30)->pd.DataFrame:
-        return None
         print('data extraction started.....')
         self.source.connect()
         df = self.source.fetch_data(symbols, days)

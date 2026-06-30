@@ -13,13 +13,13 @@ class ETLPipeline:
         print("Starting In-Memory ETL Pipeline...")
         
         # 1. Extract (Primary Engine: API)
-        print("🌐 Attempting primary extraction via API...")
+        print(" Attempting primary extraction via API...")
         extractor = Extractor()
         raw_data = extractor.extract(self.symbols, self.days)
         
         # 1.5 Extract (Fallback Engine: HTML Scraper)
         if raw_data is None or raw_data.empty:
-            print("⚠️ API Failed or returned empty! Booting up Web Scraper Fallback...")
+            print(" API Failed or returned empty! Booting up Web Scraper Fallback...")
             scraper = WebScraperExtractor()
             scraper_data = scraper.extract_live_batch(self.symbols)
             
@@ -28,7 +28,7 @@ class ETLPipeline:
             
         # If BOTH fail, abort the mission
         if raw_data is None or raw_data.empty:
-            print("❌ FATAL: Both API and Scraper failed. Aborting pipeline.")
+            print(" FATAL: Both API and Scraper failed. Aborting pipeline.")
             return False
 
         # 2. Transform 

@@ -1,3 +1,4 @@
+#testing purposes. PLease dont use in production
 import os
 import django
 import yfinance as yf

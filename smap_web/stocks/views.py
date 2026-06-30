@@ -1,110 +1,70 @@
-from django.shortcuts import render
 from django.http import JsonResponse
-from django.db.models import Max, Min
-from stocks.models import Stock, StockPrice
-from django.core.paginator import Paginator
-# Create your views here.
+from stocks.services.stock_service import StockService
 
-#get/stocks
+#STANDARDIZED API RESPONSE
+def standard_response(status = 'success', message = '', data = None, errors = None, status_code = 200):
+    """Ensures every single API returns the exact same dictionary structure."""
+    payload = {
+        'status':status,
+        'message':message,
+        'data':data,
+        'error':errors
+    }
+    return JsonResponse(payload, status = status_code)
+
+
+# The Views (waiters)
 def get_stocks(request):
-    '''fetches the search result of the stock and return it in JSON fromat.'''
-    stocks = Stock.objects.all()
-    search_query = request.GET.get('search')
-    if search_query:
-        stocks = stocks.filter(symbol__icontains = search_query)
-        
-    data=[]
-    for stock in stocks:
-        data.append({
-            'Symbol':stock.symbol,
-            "Company_name": stock.company_name
-        })
-    return JsonResponse(data,  safe=False)#return list instead of dict
-
-
-def get_desired_stock(request, symbol):
-    '''fetches only a specific required stock'''
-    try:
-        stock = Stock.objects.get(symbol = symbol.upper())
-        data = {
-            'Symbol':stock.symbol,
-            "Company_name": stock.company_name,
-            'sector':stock.sector,
-            'market cap': stock.market_cap,
-            'source': stock.source.name if stock.source else '-'
-        }
-        return JsonResponse(data)
-    except Stock.DoesNotExist:
-        return JsonResponse({'error': f'stock {symbol} not found!'})
-
-
-#price details of a stock    
-def get_stock_prices(request, symbol):
-    try:
-        stock = Stock.objects.get(symbol = symbol.upper())
-        prices = StockPrice.objects.filter(stock = stock).order_by('-trade_date')
-        paginator = Paginator(prices, 20) #20 prices per page
-        page_number = request.GET.get('page',1)
-        page_obj = paginator.get_page(page_number)
-        data=[]
-        for price in page_obj:
-            data = [{
-                'Date':price.trade_date,
-                "open_price": price.open_price,
-                "high_price": price.high_price,
-                "low_price": price.low_price,
-                "close_price": price.close_price,
-                "volume": price.volume
-            }]
-        response_payload = {
-            'metadata':{
-                'total_records':paginator.count,
-                'total_pages':paginator.num_pages,
-                'current_page':page_obj.number,
-                'has_next_page':page_obj.has_next(),
-                'has_previous_page':page_obj.has_previous(),
-            },
-            'data':data
-        }
-        return JsonResponse(response_payload)
-    except stock.DoesNotExist:
-        return JsonResponse({"error": f"Stock '{symbol}' not found."}, status=404)
+    search_query = request.GET.get('request')
     
-    
-#getting the market summary
-def get_market_summary(request):
-    stats = StockPrice.objects.aggregate(
-        latest_date = Max('trade_date'),
-        highest_closing_price = Max('close_price'),
-        lowest_closing_price = Min('close_price')
+    stock, error = StockService.get_all_stocks(search_query=search_query)
+    return standard_response(
+        message='Data Retrieved!',
+        data=stock
     )
     
-    data = {
-        "total_stocks": Stock.objects.count(),
-        "total_price_records": StockPrice.objects.count(),
-        "latest_trading_date": stats['latest_date'],
-        "highest_closing_price": stats['highest_closing_price'],
-        "lowest_closing_price": stats['lowest_closing_price']
-    }
-    return JsonResponse(data)
+def get_desired_stock(request, symbol):
+    data, error = StockService.get_stock_profile(symbol=symbol)
+    if error:
+        return standard_response(
+            status='error',
+            errors=error,
+            status_code=404
+        )
+    return standard_response(
+        message=f'Stock profile for {symbol} fetched successfully',
+        data=data
+    )
+    
+def get_stock_prices(request, symbol):
+    """Price details of a stock with pagination."""
+    page_number = request.GET.get('page', 1)
+    data, error = StockService.get_stock_prices(symbol=symbol, page_number=page_number)
+    if error:
+        return standard_response(
+            status='error',
+            errors=error,
+            status_code=404
+        )
+    return standard_response(
+        message=f'Price details for {symbol} fetched successfully',
+        data=data
+    )
+     
+def get_market_summary(request):
+    data, error = StockService.get_market_summary()
+    return standard_response(
+        message='Summary fetched successfully!',
+        data=data
+    )
 
-
-# gets the top 5 stocks (close_price)
-def get_top_stocks(request):
-    max_date = StockPrice.objects.aggregate(Max('trade_date'))
-    absolute_latest_date=  max_date['trade_date__max']
-    '''absolute_max_tradedate is needed because aggregate automatically generates the dicts
-    with __max as the key. We only need the value not the whole dict'''
-    if not absolute_latest_date:
-        return JsonResponse({'error: no price data available'}, status=404)
-        
-    top_stocks = StockPrice.objects.filter(trade_date = absolute_latest_date).order_by('-close_price')[:5]
-    data=[]
-    for s in top_stocks:
-        data.append({
-            'Symbol':s.stock.symbol,
-            'Close Price':s.close_price,
-            'Date':s.trade_date
-        })
-        
-    return JsonResponse(data, safe=False)
+def get_top_stocks(request,limit=5):
+    data, error = StockService.get_top_stocks()
+    if error:
+        return standard_response(status="error", 
+                                 errors=error, 
+                                 status_code=404)
+    return standard_response(
+        message=f'Successfully fetched top {limit} stocks',
+        data = data
+    )
