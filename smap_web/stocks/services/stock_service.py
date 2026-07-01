@@ -48,14 +48,14 @@ class StockService:
         
         data=[]
         for price in page_obj:
-            data = [{
+            data.append({
                 'Date':price.trade_date,
                 "open_price": price.open_price,
                 "high_price": price.high_price,
                 "low_price": price.low_price,
                 "close_price": price.close_price,
                 "volume": price.volume
-            }]
+            })
         response_payload = {
             'metadata':{
                 'total_records':paginator.count,

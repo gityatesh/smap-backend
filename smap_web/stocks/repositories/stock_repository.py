@@ -36,11 +36,11 @@ class StockRepository:
         )
         
         return {
-            'total_stocks':Stock.objects.count,
-            'total_price_records':StockPrice.objects.count,
+            'total_stocks':Stock.objects.count(),
+            'total_price_records':StockPrice.objects.count(),
             'latest_trading_date':stats['latest_date'],
-            'highest_closing_price':stats['highest_closing_price'],
-            'lowest_closing_price':stats['lowest_closing_price']
+            'highest_closing_price':stats['highest_close_price'],
+            'lowest_closing_price':stats['lowest_close_price']
         }
         
     #get top 5 stocks(on basis of close price(latest date))
