@@ -1,83 +1,66 @@
 /* src/index.css */
 
+/* 1. STATE VARIABLES FOR BOTH LIGHT AND DARK THEMES */
+:root {
+  /* LIGHT MODE (Clean, sharp, minimal corporate palette) */
+  --bg-primary: #ffffff;       /* Main screen background */
+  --bg-secondary: #f8fafc;     /* Card panels, list backgrounds */
+  --text-main: #0f172a;        /* High contrast primary headers/text */
+  --text-muted: #64748b;       /* Subtle text for subtitles/labels */
+  --border-color: #e2e8f0;     /* Thin gray split lines */
+  --accent-green: #10b981;     /* Primary action colour / positive price movement */
+  --accent-hover: #f1f5f9;     /* Light highlight for rows on hover */
+}
+
+[data-theme='dark'] {
+  /* DARK MODE (Low-strain slate tones, no bright neon glows) */
+  --bg-primary: #0f172a;       /* Dark slate base */
+  --bg-secondary: #1e293b;     /* Card panels slightly lighter than background */
+  --text-main: #f8fafc;        /* Soft crisp off-white text */
+  --text-muted: #94a3b8;       /* Medium slate gray text */
+  --border-color: #334155;     /* Darker divider borders */
+  --accent-green: #34d399;     /* Muted mint color for text readability */
+  --accent-hover: #1e293b;     /* Dark highlight for rows on hover */
+}
+
+/* 2. THEME TRANSITION RULE */
 body {
-  background-color: #0f172a; /* Deep slate dark mode */
-  color: #e2e8f0;            /* Soft white text */
   margin: 0;
   padding: 0;
-}
-.cyber-input {
-  background-color: #cff5ff;
-  width: 100%; /* Adjusted to fit your dashboard width */
-  padding: 12px;
-  color: white;
-  border: 2px solid white;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: 0.2s ease-in-out;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  /* Smooths out color adjustments over 0.25 seconds when flipping the switch */
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-.cyber-input:focus {
-  color: rgb(10, 48, 48);
-  background-color: #abe3ff;
-  outline: none; /* Removes the ugly default browser border */
-  border-color: rgb(0, 255, 255);
-  
-  /* I added a symmetrical glow to make it look even better */
-  box-shadow: -3px -3px 15px rgb(0, 255, 255), 3px 3px 15px rgb(0, 255, 255);
+/* 3. REUSABLE UTILITY CARD CLASS */
+.terminal-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
 }
 
-/* --- CYBER DROPDOWN MENU --- */
-
-.cyber-select-wrapper {
-  position: relative;
-  width: 250px;
-}
-
-.cyber-select {
-  appearance: none; /* Hides default browser arrow */
-  -webkit-appearance: none;
+/* 4. CLEAN DATA INPUTS (No bright visual shadows) */
+.terminal-input {
   width: 100%;
-  background-color: #212121;
-  color: white;
-  border: 2px solid white;
-  border-radius: 5px;
-  padding: 12px;
-  padding-right: 45px; /* Make room for the custom SVG */
-  font-size: 16px;
+  padding: 10px 14px;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* 5. CLEAN DROPDOWN FORM SELECTION */
+.terminal-select {
+  padding: 10px 14px;
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
   cursor: pointer;
-  outline: none;
-  transition: 0.2s ease-in-out;
-}
-
-.cyber-select:focus {
-  border-color: rgb(0, 255, 255);
-  box-shadow: -3px -3px 15px rgb(0, 255, 255), 3px 3px 15px rgb(0, 255, 255);
-}
-
-/* The custom SVG Arrow */
-.cyber-select-arrow {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  /* Start it rotated at -45 degrees just like your code */
-  transform: translateY(-50%) rotate(-45deg);
-  width: 24px;
-  height: 24px;
-  pointer-events: none; /* Ensures clicks pass through to the select menu */
-  transition: transform 0.3s ease, stroke 0.3s ease;
-  stroke: #94a3b8; 
-}
-
-/* When hovering the wrapper, rotate the arrow to 0 degrees and make it glow! */
-.cyber-select-wrapper:hover .cyber-select-arrow,
-.cyber-select:focus + .cyber-select-arrow {
-  transform: translateY(-50%) rotate(0deg);
-  stroke: rgb(0, 255, 255);
-}
-
-/* Style the internal options for dark mode */
-.cyber-select option {
-  background-color: #1e293b;
-  color: white;
 }
