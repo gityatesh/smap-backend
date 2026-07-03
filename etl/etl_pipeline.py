@@ -2,7 +2,7 @@ from etl.extractor import Extractor
 from etl.transformer import Transformer
 from etl.loader import PostgresORMLoader
 from etl.scraper_extractor import WebScraperExtractor 
-import pandas as pd
+
 
 class ETLPipeline:
     def __init__(self, symbols:list, days:int = 30):
