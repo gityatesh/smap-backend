@@ -80,6 +80,7 @@ class StockService:
         for s in top_stocks:
             data.append({
             'Symbol':s.stock.symbol,
+            'Comapany Name': s.stock.company_name,
             'Close Price':s.close_price,
             'Date':s.trade_date
         })
