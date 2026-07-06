@@ -24,6 +24,8 @@ function StockDetail() {
 
   useEffect(() => {
     Promise.all([
+      // fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/`),
+      // fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/prices/`)
       fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/`),
       fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/prices/`)
     ])
@@ -49,31 +51,22 @@ function StockDetail() {
 
   // =====================================================================
   // SMART CHART FORMATTERS
-  // These functions decide how numbers look on the Y-Axis and in the Hover Box
   // =====================================================================
 
-  // Formats the Y-Axis (The numbers on the left side of the chart)
   const formatYAxis = (tickItem) => {
     if (chartMetric === 'volume') {
-      // If it's a billion or more, divide by 1 billion and add 'B'
       if (tickItem >= 1000000000) return (tickItem / 1000000000).toFixed(1) + 'B';
-      // If it's a million or more, divide by 1 million and add 'M'
       if (tickItem >= 1000000) return (tickItem / 1000000).toFixed(1) + 'M';
-      // If it's a thousand or more, add 'K'
       if (tickItem >= 1000) return (tickItem / 1000).toFixed(1) + 'K';
       return tickItem;
     }
-    // If it is NOT volume, it must be a price, so just add a dollar sign
     return `$${tickItem}`;
   };
 
-  // Formats the Tooltip (The dark box that appears when you hover your mouse)
   const formatTooltip = (value) => {
     if (chartMetric === 'volume') {
-      // toLocaleString() adds the commas (e.g., 66,368,400)
       return [value.toLocaleString(), 'Volume'];
     }
-    // If it's a price, format it to exactly 2 decimal places with a dollar sign
     return [`$${parseFloat(value).toFixed(2)}`, metricLabels[chartMetric]];
   };
 
@@ -129,7 +122,7 @@ function StockDetail() {
               <p style={{ margin: '0 0 5px 0', color: 'var(--text-muted)', fontSize: '13px' }}>Lowest Price</p>
               <p style={{ margin: 0, color: 'var(--text-main)', fontSize: '18px', fontWeight: 'bold' }}>${parseFloat(latestData.low_price).toFixed(2)}</p>
             </div>
-            <div className="terminal-card" style={{ padding: '15px'/*, borderBottom: '3px solid var(--accent-green)'*/ }}>
+            <div className="terminal-card" style={{ padding: '15px' }}>
               <p style={{ margin: '0 0 5px 0', color: 'var(--text-muted)', fontSize: '13px' }}>Closing Price</p>
               <p style={{ margin: 0, color: 'var(--text-main)', fontSize: '18px', fontWeight: 'bold' }}>${parseFloat(latestData.close_price).toFixed(2)}</p>
             </div>
@@ -141,7 +134,7 @@ function StockDetail() {
         </div>
       )}
       
-      <div className="terminal-card">
+      <div className="terminal-card" style={{ marginBottom: '30px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <h3 style={{ color: 'var(--text-main)', margin: 0 }}>30-Day Action ({metricLabels[chartMetric]})</h3>
           
@@ -169,17 +162,15 @@ function StockDetail() {
               </defs>
               <XAxis dataKey="Date" stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} tickMargin={15} />
               
-              {/* 👈 WE ADDED THE tickFormatter PROP HERE */}
               <YAxis 
                 domain={['auto', 'auto']} 
                 stroke="var(--text-muted)" 
                 tick={{fill: 'var(--text-muted)'}} 
                 tickMargin={10} 
                 tickFormatter={formatYAxis} 
-                width={70} // Giving it just a tiny bit more room so the '$' sign doesn't clip
+                width={70} 
               />
               
-              {/* 👈 WE ADDED THE formatter PROP HERE */}
               <Tooltip 
                 contentStyle={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-main)', borderRadius: '5px' }}
                 itemStyle={{ color: 'var(--accent-green)', fontWeight: 'bold' }}
@@ -191,6 +182,56 @@ function StockDetail() {
           </ResponsiveContainer>
         </div>
       </div>
+
+      {/* ========================================= */}
+      {/* NEW: HISTORICAL DATA LEDGER               */}
+      {/* ========================================= */}
+      <div className="terminal-card">
+        <h3 style={{ color: 'var(--text-main)', margin: '0 0 20px 0', fontSize: '16px' }}>30-Day Session Ledger</h3>
+        
+        <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
+            <thead style={{ position: 'sticky', top: 0, backgroundColor: 'var(--bg-secondary)', zIndex: 1 }}>
+              <tr>
+                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Date</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Open</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>High</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Low</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Close</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Volume</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Reverse the prices array so the newest date is at the top of the table */}
+              {[...prices].reverse().map((session, index) => (
+                <tr 
+                  key={session.Date} 
+                  style={{ 
+                    backgroundColor: index === 0 ? 'rgba(33, 206, 153, 0.05)' : 'transparent',
+                    borderLeft: index === 0 ? '3px solid var(--accent-green)' : '3px solid transparent',
+                    borderBottom: '1px solid var(--border-color)',
+                    transition: 'background-color 0.2s ease'
+                  }}
+                  onMouseOver={(e) => {
+                    if (index !== 0) e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                  }}
+                  onMouseOut={(e) => {
+                    if (index !== 0) e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                >
+                  <td style={{ padding: '12px 16px', color: 'var(--text-main)' }}>{session.Date}</td>
+                  <td style={{ padding: '12px 16px', color: 'var(--text-main)' }}>${parseFloat(session.open_price).toFixed(2)}</td>
+                  <td style={{ padding: '12px 16px', color: 'var(--text-main)' }}>${parseFloat(session.high_price).toFixed(2)}</td>
+                  <td style={{ padding: '12px 16px', color: 'var(--text-main)' }}>${parseFloat(session.low_price).toFixed(2)}</td>
+                  <td style={{ padding: '12px 16px', color: 'var(--text-main)' }}>${parseFloat(session.close_price).toFixed(2)}</td>
+                  <td style={{ padding: '12px 16px', color: 'var(--text-main)' }}>{session.volume.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   );
 }
