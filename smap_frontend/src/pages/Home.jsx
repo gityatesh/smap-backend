@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import BookLoader from './BookLoader';
 
 function Home() {
   const navigate = useNavigate();
@@ -40,8 +41,7 @@ function Home() {
       setLoading(false);
     });
   }, []);
-
-  if (loading) return <div style={{ padding: '40px 0', color: 'var(--text-muted)' }}>Loading Executive Summary...</div>;
+  if (loading) return <BookLoader />;
   if (error) return <div style={{ padding: '40px 0', color: '#ef4444' }}>❌ Error: {error}</div>;
 
   // 3. FILTER OUT ONLY YOUR WATCHLIST
@@ -69,7 +69,7 @@ function Home() {
       {/* TOP PERFORMING ASSETS */}
       {topStocks.length > 0 && (
         <div style={{ marginBottom: '50px' }}>
-          <h2 style={{ color: 'var(--text-main)', fontSize: '18px', marginBottom: '20px' }}>🚀 Top Performing Assets (Latest Session)</h2>
+          <h2 style={{ color: 'var(--text-main)', fontSize: '18px', marginBottom: '20px' }}>Top Performing Assets (Latest Session)</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '15px' }}>
             {topStocks.map((stock, index) => (
               <div 

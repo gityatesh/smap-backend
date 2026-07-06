@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
-import { Routes, Route, Link, NavLink } from 'react-router-dom'; // 👈 We imported 'Link' here to make clickable buttons
+import { Routes, Route, NavLink } from 'react-router-dom';
 import { ThemeContext } from './ThemeContext'; 
+import ThemeToggle from './ThemeToggle';
+import SmapLogo from './SmapLogo';
 
 // Import our newly split pages
 import Home from './pages/Home';
@@ -17,61 +19,94 @@ function App() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         
         {/* Left Side: Brand Logo */}
-        <div>
-          <h1 style={{ margin: 0, fontSize: '2rem', color: 'var(--text-main)' }}>📈 SMAP Terminal</h1>
-        </div>
+<div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "16px",
+    padding: "8px 0",
+  }}
+>
+  <SmapLogo size={52} />
+
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    }}
+  >
+    <h1
+      style={{
+        margin: 0,
+        fontSize: "2.35rem",
+        fontWeight: 700,
+        lineHeight: 1,
+        letterSpacing: "-1px",
+        color:"var(--text-main)",
+        fontFamily: "Inter, system-ui, sans-serif",
+      }}
+    >
+      SMAP
+    </h1>
+
+    <p
+      style={{
+        margin: "6px 0 0 2px",
+        fontSize: "0.95rem",
+        fontWeight: 500,
+        color:"var(--text-secondary)",
+        letterSpacing: "0.3px",
+        fontFamily: "Inter, system-ui, sans-serif",
+      }}
+    >
+      Stock Market Analysis Program
+    </p>
+  </div>
+</div>
         
         {/* Middle: Navigation Links */}
-        {/* In React, NEVER use an <a href="/"> tag. It forces the browser to reload the page. 
-            Instead, we use <Link to="/">. It swaps the page instantly without loading! */}
         <div style={{ display: "flex", gap: "20px" }}>
+          <NavLink
+            to="/"
+            end
+            style={({ isActive }) => ({
+              color: isActive ? "var(--text-main)" : "var(--text-muted)",
+              textDecoration: "none",
+              fontWeight: "600",
+              fontSize: "16px",
+            })}
+          >
+            Home
+          </NavLink>
 
-  <NavLink
-    to="/"
-    end
-    style={({ isActive }) => ({
-      color: isActive ? "var(--text-main)" : "var(--text-muted)",
-      textDecoration: "none",
-      fontWeight: "600",
-      fontSize: "16px",
-    })}
-  >
-    Home
-  </NavLink>
-
-  <NavLink
-    to="/explore"
-    style={({ isActive }) => ({
-      color: isActive ? "var(--text-main)" : "var(--text-muted)",
-      textDecoration: "none",
-      fontWeight: "600",
-      fontSize: "16px",
-    })}
-  >
-    Explore Market
-  </NavLink>
+          <NavLink
+            to="/explore"
+            style={({ isActive }) => ({
+              color: isActive ? "var(--text-main)" : "var(--text-muted)",
+              textDecoration: "none",
+              fontWeight: "600",
+              fontSize: "16px",
+            })}
+          >
+            Explore Market
+          </NavLink>
         </div>
 
-        {/* Right Side: Theme Toggle */}
-        <button 
-          onClick={toggleTheme} 
-          style={{
-            padding: '10px 18px', borderRadius: '6px', cursor: 'pointer',
-            backgroundColor: 'var(--bg-secondary)', color: 'var(--text-main)',
-            border: '1px solid var(--border-color)', fontWeight: '600',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          {theme === 'light' ? '🌙 Go Dark' : '☀️ Go Light'}
-        </button>
-      </div>
+        {/* Right Side: Animated Theme Toggle */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <ThemeToggle 
+            isLight={theme === 'light'} 
+            toggleTheme={toggleTheme} 
+          />
+        </div>
+      </div>  
 
       {/* A nice clean separator line under the navigation bar */}
       <hr style={{ border: 'none', height: '1px', backgroundColor: 'var(--border-color)', marginBottom: '40px' }} />
 
       {/* THE ROUTER (Traffic Cop) */}
       <Routes>
-        {/* We map the URLs to our new pages! */}
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/stock/:symbol" element={<StockDetail />} />

@@ -119,3 +119,4 @@ Transform **SMAP** from a financial dashboard into a fully deployed **AI-driven 
 - Fault-tolerant data ingestion
 - Continuous transformation of raw financial data into actionable intelligence
 - Production-ready cloud architecture
+

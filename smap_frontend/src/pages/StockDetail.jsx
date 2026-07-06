@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import BookLoader from './BookLoader';
 
 function StockDetail() {
   const { symbol } = useParams();
@@ -27,7 +28,7 @@ function StockDetail() {
       // fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/`),
       // fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/prices/`)
       fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/`),
-      fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/prices/`)
+      fetch(`https://smap-backend-yrlx.onrender.com/${symbol}/prices/`)
     ])
     .then(async ([resProfile, resPrices]) => {
       if (!resProfile.ok || !resPrices.ok) throw new Error('Failed to fetch data from Django');
@@ -44,14 +45,10 @@ function StockDetail() {
     });
   }, [symbol]);
 
-  if (loading) return <div style={{ padding: '40px', color: 'var(--text-muted)' }}>Loading {symbol} Terminal...</div>;
-  if (error) return <div style={{ padding: '40px', color: 'red' }}>❌ Error: {error}</div>;
+  if (loading) return <BookLoader />;
+  if (error) return <div style={{ padding: '40px', color: '#ff4c4c' }}>System Alert: {error}</div>;
 
   const latestData = prices.length > 0 ? prices[prices.length - 1] : null;
-
-  // =====================================================================
-  // SMART CHART FORMATTERS
-  // =====================================================================
 
   const formatYAxis = (tickItem) => {
     if (chartMetric === 'volume') {
@@ -84,18 +81,20 @@ function StockDetail() {
           cursor: 'pointer', 
           marginBottom: '30px',
           fontSize: '14px',
-          fontWeight: '600'
+          fontWeight: '600',
+          transition: 'color 0.2s'
         }}
       >
         ← Back to Directory
       </button>
       
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '30px' }}>
+      {/* 📱 MOBILE RESPONSIVE HEADER */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: '15px', marginBottom: '30px' }}>
         <div>
-          <h1 style={{ color: 'var(--text-main)', margin: '0 0 5px 0', fontSize: '2.5rem' }}>{profile.Company_name}</h1>
-          <p style={{ color: 'var(--accent-green)', margin: 0, fontSize: '1.2rem', fontWeight: 'bold' }}>{symbol}</p>
+          <h1 style={{ color: 'var(--text-main)', margin: '0 0 5px 0', fontSize: '2.5rem', lineHeight: '1.2' }}>{profile.Company_name}</h1>
+          <p style={{ color: 'var(--accent-green)', margin: 0, fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '1px' }}>{symbol}</p>
         </div>
-        <div style={{ textAlign: 'right' }}>
+        <div style={{ textAlign: 'left', minWidth: '200px' }}>
           <p style={{ color: 'var(--text-muted)', margin: '0 0 5px 0' }}>Sector: <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{profile.sector}</span></p>
           <p style={{ color: 'var(--text-muted)', margin: 0 }}>Market Cap: <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{profile['market cap'] ? `$${profile['market cap'].toLocaleString()}` : 'Unknown'}</span></p>
         </div>
@@ -109,7 +108,8 @@ function StockDetail() {
             Latest Session: <span style={{ color: 'var(--text-muted)', fontWeight: 'normal' }}>{latestData.Date}</span>
           </h3>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '15px' }}>
+          {/* 📱 MOBILE RESPONSIVE GRID */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '15px' }}>
             <div className="terminal-card" style={{ padding: '15px' }}>
               <p style={{ margin: '0 0 5px 0', color: 'var(--text-muted)', fontSize: '13px' }}>Opening Price</p>
               <p style={{ margin: 0, color: 'var(--text-main)', fontSize: '18px', fontWeight: 'bold' }}>${parseFloat(latestData.open_price).toFixed(2)}</p>
@@ -135,13 +135,14 @@ function StockDetail() {
       )}
       
       <div className="terminal-card" style={{ marginBottom: '30px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h3 style={{ color: 'var(--text-main)', margin: 0 }}>30-Day Action ({metricLabels[chartMetric]})</h3>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+          <h3 style={{ color: 'var(--text-main)', margin: 0, fontSize: '16px' }}>30-Day Action ({metricLabels[chartMetric]})</h3>
           
           <select 
             className="terminal-select" 
             value={chartMetric}
             onChange={(e) => setChartMetric(e.target.value)}
+            style={{ padding: '6px 12px', borderRadius: '4px', backgroundColor: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)' }}
           >
             <option value="close_price">Closing Price</option>
             <option value="open_price">Opening Price</option>
@@ -160,37 +161,21 @@ function StockDetail() {
                   <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <XAxis dataKey="Date" stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} tickMargin={15} />
-              
-              <YAxis 
-                domain={['auto', 'auto']} 
-                stroke="var(--text-muted)" 
-                tick={{fill: 'var(--text-muted)'}} 
-                tickMargin={10} 
-                tickFormatter={formatYAxis} 
-                width={70} 
-              />
-              
-              <Tooltip 
-                contentStyle={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-main)', borderRadius: '5px' }}
-                itemStyle={{ color: 'var(--accent-green)', fontWeight: 'bold' }}
-                formatter={formatTooltip}
-              />
-              
+              <XAxis dataKey="Date" stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} tickMargin={15} minTickGap={30} />
+              <YAxis domain={['auto', 'auto']} stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} tickMargin={10} tickFormatter={formatYAxis} width={65} />
+              <Tooltip contentStyle={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-main)', borderRadius: '5px' }} itemStyle={{ color: 'var(--accent-green)', fontWeight: 'bold' }} formatter={formatTooltip} />
               <Area type="monotone" dataKey={chartMetric} stroke="var(--accent-green)" strokeWidth={3} fillOpacity={1} fill="url(#colorMetric)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      {/* ========================================= */}
-      {/* NEW: HISTORICAL DATA LEDGER               */}
-      {/* ========================================= */}
       <div className="terminal-card">
         <h3 style={{ color: 'var(--text-main)', margin: '0 0 20px 0', fontSize: '16px' }}>30-Day Session Ledger</h3>
         
-        <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
+        {/* 📱 MOBILE SWIPEABLE TABLE CONTAINER */}
+        <div style={{ maxHeight: '400px', overflowY: 'auto', overflowX: 'auto' }}>
+          <table style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px', whiteSpace: 'nowrap' }}>
             <thead style={{ position: 'sticky', top: 0, backgroundColor: 'var(--bg-secondary)', zIndex: 1 }}>
               <tr>
                 <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Date</th>
@@ -202,7 +187,6 @@ function StockDetail() {
               </tr>
             </thead>
             <tbody>
-              {/* Reverse the prices array so the newest date is at the top of the table */}
               {[...prices].reverse().map((session, index) => (
                 <tr 
                   key={session.Date} 
@@ -210,7 +194,8 @@ function StockDetail() {
                     backgroundColor: index === 0 ? 'rgba(33, 206, 153, 0.05)' : 'transparent',
                     borderLeft: index === 0 ? '3px solid var(--accent-green)' : '3px solid transparent',
                     borderBottom: '1px solid var(--border-color)',
-                    transition: 'background-color 0.2s ease'
+                    transition: 'background-color 0.2s ease',
+                    fontVariantNumeric: 'tabular-nums' // 👈 Forces numbers to align perfectly
                   }}
                   onMouseOver={(e) => {
                     if (index !== 0) e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';

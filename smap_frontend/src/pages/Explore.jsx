@@ -1,6 +1,7 @@
 // src/pages/Explore.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import BookLoader from './BookLoader';
 
 function Explore() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function Explore() {
       return 0;
     });
 
-  if (loading) return <div style={{ color: 'var(--text-muted)' }}>Loading Database...</div>;
+  if (loading) return <BookLoader />
 
   return (
     <div>
