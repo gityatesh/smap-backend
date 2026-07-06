@@ -140,7 +140,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 import os
-STATIC_root = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
