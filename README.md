@@ -35,7 +35,7 @@ This project strictly adheres to the **Separation of Concerns** principle. The a
 
 SMAP is fully deployed and publicly accessible.
 
-🔗 **Try it now:** : [Smap Web App](https://smap-frontend.vercel.app/)
+🔗 **Try it now:** : [Smap Web App](https://smap.vercel.app/)
 
 Explore real-time market data, interactive visualizations, and the complete full-stack cloud architecture in action.
 ---
