@@ -147,4 +147,6 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "https://smap.vercel.app",
+    "https://smap-frontend-git-main-nexora-smap.vercel.app",
+    "https://smap-frontend-9mdbp1zqh-nexora-smap.vercel.app",
 ]
