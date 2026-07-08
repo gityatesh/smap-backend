@@ -43,8 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'corsheaders',
+    
     'stocks',
+    'accounts',
+    'portfolio',
 ]
 
 MIDDLEWARE = [
@@ -85,25 +89,25 @@ WSGI_APPLICATION = 'smap_web.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 # old database link (in docker-postgres)
-'''DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'stockmarket_db',
         'USER': 'postgres',
-        'PASSWORD': '***********',
+        'PASSWORD': 'Yatesh1234?',
         'HOST': 'localhost',
         'PORT': '5432',
     }
-}'''
+}
 
 #connects django with our online database
-DATABASES = {
+'''DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,    # Keeps the connection open for 10 minutes to speed up requests
         conn_health_checks=True,
     )
-}
+}'''
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
