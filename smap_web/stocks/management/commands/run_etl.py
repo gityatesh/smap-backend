@@ -15,7 +15,7 @@ class Command(BaseCommand):
         
         self.stdout.write(self.style.SUCCESS('Starting Django........\nStarting ETL pipeline..........'))
         symbols_to_track = [
-    'SBIN.NS',
+    'SBIN',
 
     # US Technology
     'MSFT',
@@ -70,15 +70,15 @@ class Command(BaseCommand):
     'TSLA',
 
     # Indian Stocks
-    'RELIANCE.NS',
-    'TCS.NS',
-    'INFY.NS',
-    'HDFCBANK.NS',
-    'ICICIBANK.NS',
-    'ITC.NS',
-    'BHARTIARTL.NS',
-    'LT.NS',
-    'HINDUNILVR.NS'
+    'RELIANCE',
+    'TCS',
+    'INFY',
+    'HDFCBANK',
+    'ICICIBANK',
+    'ITC',
+    'BHARTIARTL',
+    'LT',
+    'HINDUNILVR'
 ]
         
         try:
