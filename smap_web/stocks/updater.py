@@ -26,8 +26,8 @@ def start_pipeline_scheduler():
         id = 'daily_market_scraping',
         trigger=CronTrigger(
             day_of_week='mon-fri',
-            hour=12,
-            minute=48
+            hour=14,
+            minute=15
         )
     )
     
