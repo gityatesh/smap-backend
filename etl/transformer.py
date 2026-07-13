@@ -24,6 +24,15 @@ class Transformer:
         avl_columns = [c for c in important_columns if c in df.columns]
         df = df[avl_columns]
         
+        #currency exchange temporary fix
+        US_EXCHANGE_RATE = 95.83
+        price_fields = ['open', 'high', 'low', 'close']
+        is_indian_stock = df['symbol'].str.endswith('.NS', na = False)
+        for price in price_fields:
+            if price in df.columns: #just to make sure the column exist
+                df.loc[is_indian_stock,price] = df.loc[is_indian_stock,price]/US_EXCHANGE_RATE
+                df.loc[is_indian_stock,price] = df.loc[is_indian_stock, price].round(2)
+                      
         rename = {
             'open': 'open_price',
             'high': 'high_price',

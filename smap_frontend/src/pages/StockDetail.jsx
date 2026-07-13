@@ -25,6 +25,8 @@ function StockDetail() {
 
   useEffect(() => {
     Promise.all([
+      // fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/`),
+      // fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/prices/`)
       fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/`),
       fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/prices/`)
     ])
