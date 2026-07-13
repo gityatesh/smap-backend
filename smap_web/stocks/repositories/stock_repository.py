@@ -1,6 +1,8 @@
 from stocks.models import Stock,StockPrice
 from django.db.models import Min,Max
 
+from django.db.models import Subquery,OuterRef
+
 class StockRepository:
     
     #to return stocks on based of search quesry or to return all stocks
@@ -46,11 +48,17 @@ class StockRepository:
     #get top 5 stocks(on basis of close price(latest date))
     @staticmethod
     def get_top_stocks(limit=5):
-        max_date = StockPrice.objects.aggregate(Max('trade_date'))
-        absolute_latest_date = max_date['trade_date__max']
+        # 1. Create a subquery that looks at the database and grabs the ID 
+        # of the absolute newest row for EACH specific stock.
+        latest_price_subquery = StockPrice.objects.filter(
+            stock=OuterRef('stock')
+        ).order_by('-trade_date').values('id')[:1]
+
+        # 2. Filter the main database to ONLY look at those specific "latest" IDs.
+        # Now that we have the newest price for every stock regardless of timezone, 
+        # we can finally sort them mathematically by close_price.
+        top_stocks = StockPrice.objects.filter(
+            id=Subquery(latest_price_subquery)
+        ).order_by('-close_price')[:limit]
         
-        if not absolute_latest_date:
-            return None
-        
-        return StockPrice.objects.filter(trade_date = absolute_latest_date).order_by('-close_price')[:limit]
-    
+        return top_stocks

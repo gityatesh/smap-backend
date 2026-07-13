@@ -25,8 +25,10 @@ function StockDetail() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/`),
-      fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/prices/`)
+      fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/`),
+      fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/prices/`)
+      // fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/`),
+      // fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/prices/`)
     ])
     .then(async ([resProfile, resPrices]) => {
       if (!resProfile.ok || !resPrices.ok) throw new Error('Failed to fetch data from Django');

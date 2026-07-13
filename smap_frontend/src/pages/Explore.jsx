@@ -19,8 +19,8 @@ function Explore() {
   });
 
   useEffect(() => {
-    fetch('https://smap-backend-yrlx.onrender.com/api/stocks/')
-    // fetch('http://127.0.0.1:8000/api/stocks/')
+    // fetch('https://smap-backend-yrlx.onrender.com/api/stocks/')
+    fetch('http://127.0.0.1:8000/api/stocks/')
       .then(res => res.json())
       .then(json => {
         setAllStocks(json?.data || []);
