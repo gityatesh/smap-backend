@@ -27,7 +27,7 @@ def start_pipeline_scheduler():
         trigger=CronTrigger(
             day_of_week='mon-fri',
             hour=14,
-            minute=15
+            minute=20
         )
     )
     
