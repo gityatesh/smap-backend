@@ -1,11 +1,12 @@
 from django.http import JsonResponse
 from stocks.services.stock_service import StockService
 
+import threading
+import os
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.core.management import call_command
-import os
 
 #STANDARDIZED API RESPONSE
 def standard_response(status = 'success', message = '', data = None, errors = None, status_code = 200):
@@ -75,22 +76,31 @@ def get_top_stocks(request,limit=5):
         data = data
     )
     
+def run_pipeline_in_background():
+    try:
+        print("Running ETL pipeline from webhook background thread...")
+        call_command('run_etl')
+        
+        print("Running enrichment pipeline...")
+        call_command('run_enrichment')
+        
+        print("Data pipelines completed successfully!")
+    except Exception as e:
+        print(f"Pipeline crashed in background: {e}")
+
 class TriggerETLView(APIView):
-    # Using POST prevents browsers from accidentally triggering it if someone types the URL
     def post(self, request):
-        # A simple security check so random bots can't drain your server
+        # 1. Security Check
         secret = request.headers.get('X-ETL-Secret')
         if secret != os.environ.get('ETL_SECRET_KEY', 'dev_secret_123'):
             return Response({"error": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
             
-        try:
-            print("Running ETL pipeline from webhook...")
-            call_command('run_etl')
-            
-            print("Running enrichment pipeline...")
-            call_command('run_enrichment')
-            
-            return Response({"message": "ETL and Enrichment pipelines executed successfully!"}, status=status.HTTP_200_OK)
-            
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        # 2. Start the pipeline in a separate background lane
+        thread = threading.Thread(target=run_pipeline_in_background)
+        thread.start()
+        
+        # 3. Return success IMMEDIATELY, before the pipeline finishes
+        return Response(
+            {"message": "ETL and Enrichment pipelines started in the background!"}, 
+            status=status.HTTP_202_ACCEPTED
+        )
