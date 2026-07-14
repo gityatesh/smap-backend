@@ -7,7 +7,7 @@ class Extractor:
         self.source = YahooFinanceSource() #we can switch the source later
         # self.output = 'data/raw_stock_data.csv'
         
-    def extract(self, symbols:list, days:int = 30)->pd.DataFrame:
+    def extract(self, symbols:list, days:int)->pd.DataFrame:
         print('data extraction started.....')
         self.source.connect()
         df = self.source.fetch_data(symbols, days)

@@ -5,7 +5,7 @@ from etl.scraper_extractor import WebScraperExtractor
 
 
 class ETLPipeline:
-    def __init__(self, symbols:list, days:int = 30):
+    def __init__(self, symbols:list, days:int):
         self.days = days
         self.symbols = symbols
 
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     ]
     
     # Instantiate the pipeline
-    pipeline = ETLPipeline(symbols=symbols_to_track, days=30)
+    pipeline = ETLPipeline(symbols=symbols_to_track, days=100)
     
     # Execute the pipeline
     pipeline.run_pipeline()

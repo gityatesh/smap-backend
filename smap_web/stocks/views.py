@@ -1,6 +1,12 @@
 from django.http import JsonResponse
 from stocks.services.stock_service import StockService
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.core.management import call_command
+import os
+
 #STANDARDIZED API RESPONSE
 def standard_response(status = 'success', message = '', data = None, errors = None, status_code = 200):
     """Ensures every single API returns the exact same dictionary structure."""
@@ -68,3 +74,23 @@ def get_top_stocks(request,limit=5):
         message=f'Successfully fetched top {limit} stocks',
         data = data
     )
+    
+class TriggerETLView(APIView):
+    # Using POST prevents browsers from accidentally triggering it if someone types the URL
+    def post(self, request):
+        # A simple security check so random bots can't drain your server
+        secret = request.headers.get('X-ETL-Secret')
+        if secret != os.environ.get('ETL_SECRET_KEY', 'dev_secret_123'):
+            return Response({"error": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            
+        try:
+            print("Running ETL pipeline from webhook...")
+            call_command('run_etl')
+            
+            print("Running enrichment pipeline...")
+            call_command('run_enrichment')
+            
+            return Response({"message": "ETL and Enrichment pipelines executed successfully!"}, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
