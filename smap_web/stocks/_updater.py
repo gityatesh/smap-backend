@@ -1,3 +1,4 @@
+#tester file
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 import os
@@ -26,8 +27,8 @@ def start_pipeline_scheduler():
         id = 'daily_market_scraping',
         trigger=CronTrigger(
             day_of_week='mon-fri',
-            hour=16,
-            minute=30
+            hour=17,
+            minute=45
         )
     )
     
