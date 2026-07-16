@@ -60,6 +60,13 @@ const Portfolio = () => {
     // Calculate dynamic total net worth based on live API prices
     const totalInvestedValue = holdings.reduce((sum, item) => sum + item.current_value, 0);
     const netWorth = (user?.balance || 0) + totalInvestedValue;
+    const profitAmount = netWorth-100000
+    const profitColor =
+  profitAmount > 0
+    ? '#22c55e'
+    : profitAmount < 0
+    ? '#ef4444'
+    : 'var(--text-main)';
     return (
         <div style={{ maxWidth: '900px', margin: '0 auto', padding: '20px' }}>
             
@@ -77,6 +84,17 @@ const Portfolio = () => {
                     <div>
                         <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '14px' }}>Total Net Worth</p>
                         <h2 style={{ margin: 0, color: 'var(--text-main)' }}>${netWorth.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h2>
+                    </div>
+
+                    <div>
+                        <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '14px' }}>Net Profit</p>
+                        <h2 style={{ margin: 0, color: profitColor }}>
+  {profitAmount > 0 ? '+' : ''}
+  ${profitAmount.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}
+</h2>
                     </div>
                 </div>
             </div>
