@@ -92,7 +92,7 @@ function Home() {
 
       {/* 4. YOUR NEW WATCHLIST SECTION */}
       <div>
-        <h2 style={{ color: 'var(--text-main)', fontSize: '18px', marginBottom: '20px' }}>⭐ Your Personal Watchlist</h2>
+        <h2 style={{ color: 'var(--text-main)', fontSize: '18px', marginBottom: '20px' }}>⭐ Your Favourate Stocks</h2>
         
         {favoriteStocks.length > 0 ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: '16px' }}>

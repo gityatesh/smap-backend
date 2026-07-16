@@ -19,8 +19,10 @@ class WatchlistView(APIView):
         }, status=status.HTTP_200_OK)
 
     def post(self, request):
-        stock_id = request.data.get('stock')
-        result, error = PortfolioService.add_to_watchlist(request.user, stock_id)
+        symbol = request.data.get('symbol')
+        if not symbol:
+            return Response({"error": "Stock symbol is required"}, status=400)
+        result, error = PortfolioService.add_to_watchlist(request.user, symbol)
         
         if error:
             return Response({
@@ -41,13 +43,13 @@ class TransactionView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        stock_id = request.data.get('stock')
+        symbol = request.data.get('symbol')
         quantity = request.data.get('quantity')
         action = request.data.get('transaction_type')
 
         result, error = PortfolioService.execute_trade(
             user=request.user,
-            stock_id=stock_id,
+            symbol=symbol,
             transaction_type=action,
             quantity=quantity
         )
@@ -78,3 +80,12 @@ class PortfolioSummaryView(APIView):
             "data": data,
             "error": None
         }, status=status.HTTP_200_OK)
+        
+class WalletView(APIView):
+    def get(self, request):
+        try:
+            # Grab the exact live balance from the database
+            balance = request.user.investor_profile.available_cash
+            return Response({"available_cash": float(balance)})
+        except Exception:
+            return Response({"available_cash": 0.0})

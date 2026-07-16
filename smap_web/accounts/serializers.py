@@ -33,10 +33,14 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # DEFENSIVE CHECK: Safely try to get the balance
         # Note: If your models.py uses a related_name like 'investor_profile', 
         # change 'investorprofile' below to match it exactly!
-        if hasattr(self.user, 'investorprofile'):
-            data['balance'] = float(self.user.investorprofile.cash_balance)
-        else:
-            # If it's an admin or old user without a wallet, give them a safe default
-            data['balance'] = 0.0 
-
+        try:
+            # Try to access the profile directly
+            profile = self.user.investor_profile
+            data['balance'] = float(profile.available_cash)
+            print(f"💰 SUCCESS: Found profile for {self.user.username} with balance: {data['balance']}")
+        except Exception as e:
+            # If the profile doesn't exist, it falls here
+            print(f"⚠️ ERROR: No InvestorProfile found for {self.user.username}! Defaulting to 0.")
+            data['balance'] = 0.0
+            
         return data

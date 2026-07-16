@@ -1,8 +1,12 @@
 import React, { useContext } from 'react';
-import { Routes, Route, NavLink } from 'react-router-dom';
+import { Routes, Route, NavLink, useNavigate } from 'react-router-dom';
 import { ThemeContext } from './ThemeContext'; 
+import { AuthContext } from './AuthContext';
 import ThemeToggle from './ThemeToggle';
 import SmapLogo from './SmapLogo';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Portfolio from './pages/Portfolio';
 
 // Import our newly split pages
 import Home from './pages/Home';
@@ -11,6 +15,8 @@ import StockDetail from './pages/StockDetail';
 
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { user, logout } = useContext(AuthContext); // GRAB USER AND LOGOUT FUNCTION
+  const navigate = useNavigate(); // To redirect them after logging out
 
   return (
     <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 20px' }}>
@@ -66,42 +72,44 @@ function App() {
 </div>
         
         {/* Middle: Navigation Links */}
-        <div style={{ display: "flex", gap: "20px" }}>
-          <NavLink
-            to="/"
-            end
-            style={({ isActive }) => ({
-              color: isActive ? "var(--text-main)" : "var(--text-muted)",
-              textDecoration: "none",
-              fontWeight: "600",
-              fontSize: "16px",
-            })}
-          >
+        <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+          <NavLink to="/" end style={({ isActive }) => ({ color: isActive ? "var(--text-main)" : "var(--text-muted)", textDecoration: "none", fontWeight: "600", fontSize: "16px" })}>
             Home
           </NavLink>
-
-          <NavLink
-            to="/explore"
-            style={({ isActive }) => ({
-              color: isActive ? "var(--text-main)" : "var(--text-muted)",
-              textDecoration: "none",
-              fontWeight: "600",
-              fontSize: "16px",
-            })}
-          >
+          
+          <NavLink to="/explore" style={({ isActive }) => ({ color: isActive ? "var(--text-main)" : "var(--text-muted)", textDecoration: "none", fontWeight: "600", fontSize: "16px" })}>
             Explore Market
           </NavLink>
-        </div>
 
-        {/* Right Side: Animated Theme Toggle */}
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <ThemeToggle 
-            isLight={theme === 'light'} 
-            toggleTheme={toggleTheme} 
-          />
+          {/* DYNAMIC AUTH LINKS */}
+          {user ? (
+            <>
+              {/* If Logged In */}
+              <NavLink to="/portfolio" style={({ isActive }) => ({ color: isActive ? "var(--text-main)" : "var(--text-muted)", textDecoration: "none", fontWeight: "600", fontSize: "16px" })}>
+                Portfolio 
+              </NavLink>
+              <div style={{ padding: "4px 12px", backgroundColor: "var(--bg-secondary)", borderRadius: "8px", fontSize: "14px", fontWeight: "bold" }}>
+                💰 ${user.balance?.toLocaleString()}
+              </div>
+              <button 
+                onClick={() => { logout(); navigate('/'); }} 
+                style={{ background: 'none', border: 'none', color: '#ef4444', fontWeight: '600', cursor: 'pointer', fontSize: "16px" }}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              {/* If Logged Out */}
+              <NavLink to="/login" style={({ isActive }) => ({ color: isActive ? "var(--text-main)" : "var(--text-muted)", textDecoration: "none", fontWeight: "600", fontSize: "16px" })}>
+                Login
+              </NavLink>
+              <NavLink to="/signup" style={({ isActive }) => ({ color: isActive ? "var(--text-main)" : "var(--text-muted)", textDecoration: "none", fontWeight: "600", fontSize: "16px" })}>
+                Sign Up
+              </NavLink>
+            </>
+          )}
+        </div> 
         </div>
-      </div>  
-
       {/* A nice clean separator line under the navigation bar */}
       <hr style={{ border: 'none', height: '1px', backgroundColor: 'var(--border-color)', marginBottom: '40px' }} />
 
@@ -110,6 +118,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/stock/:symbol" element={<StockDetail />} />
+        <Route path = "/login" element = {<Login />} /> 
+        <Route path="/signup" element={<Signup />} /> 
+        <Route path="/portfolio" element={<Portfolio />} /> 
       </Routes>
 
     </div>

@@ -79,9 +79,10 @@ class StockService:
         data=[]
         for s in top_stocks:
             data.append({
-            'Symbol':s.stock.symbol,
-            'Comapany Name': s.stock.company_name,
-            'Close Price':s.close_price,
-            'Date':s.trade_date
-        })
+                'id': s.stock.id,
+                'Symbol': s.stock.symbol,
+                'Comapany Name': s.stock.company_name,
+                'Close Price': s.close_price,
+                'Date': s.trade_date
+            })
         return data,None
