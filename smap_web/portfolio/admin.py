@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Watchlist, Transaction
+from .models import Transaction, WatchlistGroup, WatchlistItem 
 
-admin.site.register(Watchlist)
 admin.site.register(Transaction)
+admin.site.register(WatchlistGroup)
+admin.site.register(WatchlistItem)

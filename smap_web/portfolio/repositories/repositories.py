@@ -1,15 +1,15 @@
 # this repo layer is only used to fetch data from the database
-from portfolio.models import Watchlist,Transaction
+from portfolio.models import Transaction
 from stocks.models import StockPrice
 
 class PortfolioRepository:
-    @staticmethod
-    def get_watchlist_by_user(user):
-        return Watchlist.objects.filter(user=user)
+    # @staticmethod
+    # def get_watchlist_by_user(user):
+    #     return WatchlistGroup.objects.filter(user=user)
     
-    @staticmethod
-    def create_watchlist_entry(user, stock):
-        return Watchlist.objects.create(user = user, stock = stock)
+    # @staticmethod
+    # def create_watchlist_entry(user, stock):
+    #     return WatchlistGroup.objects.create(user = user, stock = stock)
     
     @staticmethod
     def get_transactions_by_user(user):

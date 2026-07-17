@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TransactionView,WatchlistView,PortfolioSummaryView, WalletView
+from .views import TransactionView,PortfolioSummaryView, WalletView, WatchlistView
 
 urlpatterns = [
     path('watchlist/', WatchlistView.as_view(), name = 'watchlist'),

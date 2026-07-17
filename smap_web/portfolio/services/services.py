@@ -1,38 +1,88 @@
 #service layer to do all the filter and calculations
 from portfolio.repositories.repositories import PortfolioRepository
-from portfolio.models import Watchlist
+from portfolio.models import WatchlistItem, WatchlistGroup
 from stocks.models import Stock
 from decimal import Decimal
 
 class PortfolioService:
     @staticmethod
-    def get_watchlist(user):
-        watchlist_items = PortfolioRepository.get_watchlist_by_user(user=user)
-        return [{
-            'symbol':item.stock.id,
-            'symbol':item.stock.symbol,
-            'company_name':item.stock.company_name,
-            'added_at':item.added_at
-            
-        } for item in watchlist_items
-                ]
+    def get_user_watchlists(user):
+        """Fetches all watchlists for a user and injects LIVE market data (Flaw 3 Fix)"""
+        # Grab all the user's custom folders
+        groups = WatchlistGroup.objects.filter(user=user).prefetch_related('items__stock')
         
+        watchlist_data = []
+        for group in groups:
+            group_data = {
+                "id": group.id,
+                "name": group.name,
+                "items": []
+            }
+            
+            # Loop through the stocks inside this specific folder
+            for item in group.items.all():
+                stock = item.stock
+                
+                # 🚨 FLAW 3 FIX: Ping your price fetcher to get the live data!
+                latest_price = PortfolioRepository.get_latest_stock_price(stock)
+                current_price = float(latest_price) if latest_price else 0.0
+                
+                group_data["items"].append({
+                    "item_id": item.id,
+                    "symbol": stock.symbol,
+                    "company_name": stock.company_name,
+                    "current_price": round(current_price, 2)
+                })
+            
+            watchlist_data.append(group_data)
+            
+        return watchlist_data
+
     @staticmethod
-    def add_to_watchlist(user, symbol):
+    def create_watchlist_group(user, name):
+        """Creates a brand new custom-named folder"""
+        group, created = WatchlistGroup.objects.get_or_create(user=user, name=name)
+        if not created:
+            return None, "A watchlist with this name already exists."
+        return group, None
+
+    @staticmethod
+    def add_to_watchlist(user, group_id, symbol):
+        """Adds a stock to a specific custom folder"""
         try:
-            # 🛡️ THE FIX: Query the database using symbol=symbol, NOT id=symbol
+            group = WatchlistGroup.objects.get(id=group_id, user=user)
+        except WatchlistGroup.DoesNotExist:
+            return None, "Watchlist folder not found."
+            
+        try:
             stock = Stock.objects.get(symbol=symbol)
         except Stock.DoesNotExist:
-            return None, "Stock not found"
-
-        # Now that you have the actual Stock object, you can safely add it 
-        # (Assuming your model is named Watchlist or WatchlistItem)
-        watchlist_item, created = Watchlist.objects.get_or_create(user=user, stock=stock)
-
-        if not created:
-            return None, f"{symbol} is already in your watchlist!"
+            return None, "Stock not found in our database."
             
-        return f"{symbol} added to watchlist!", None
+        item, created = WatchlistItem.objects.get_or_create(group=group, stock=stock)
+        if not created:
+            return None, f"{symbol} is already in {group.name}!"
+            
+        return item, None
+    
+    @staticmethod
+    def delete_watchlist_group(user, group_id):
+        try:
+            group = WatchlistGroup.objects.get(id=group_id, user=user)
+            group.delete()
+            return "Watchlist deleted successfully.", None
+        except WatchlistGroup.DoesNotExist:
+            return None, "Watchlist not found."
+
+    @staticmethod
+    def remove_from_watchlist(user, item_id):
+        try:
+            # We check group__user=user so people can't delete other users' stocks
+            item = WatchlistItem.objects.get(id=item_id, group__user=user)
+            item.delete()
+            return "Stock removed from watchlist.", None
+        except WatchlistItem.DoesNotExist:
+            return None, "Item not found."
         
     @staticmethod
     def execute_trade(user, symbol, transaction_type, quantity):
@@ -112,14 +162,30 @@ class PortfolioService:
                     'symbol': symbol,
                     'company_name': t.stock.company_name,
                     'net_shares': 0,
-                    'total_invested': 0.0
+                    'average_buy_price': 0.0  # We track the exact average price paid per share
                 }
             
             if t.transaction_type == 'BUY':
+                current_shares = portfolio[symbol]['net_shares']
+                current_avg_price = portfolio[symbol]['average_buy_price']
+                
+                # Calculate the math for the new average buy price
+                total_cost_before = current_shares * current_avg_price
+                cost_of_new_shares = t.quantity * float(t.execution_price)
+                
                 portfolio[symbol]['net_shares'] += t.quantity
-                portfolio[symbol]['total_invested'] += float(t.quantity * t.execution_price)
+                
+                # Prevent division by zero, then calculate new average
+                if portfolio[symbol]['net_shares'] > 0:
+                    portfolio[symbol]['average_buy_price'] = (total_cost_before + cost_of_new_shares) / portfolio[symbol]['net_shares']
+                    
             elif t.transaction_type == 'SELL':
                 portfolio[symbol]['net_shares'] -= t.quantity
+                
+                # If they sold all their shares, reset their math to zero
+                if portfolio[symbol]['net_shares'] <= 0:
+                    portfolio[symbol]['average_buy_price'] = 0.0
+                    portfolio[symbol]['net_shares'] = 0
 
         active_holdings = []
         for symbol, data in portfolio.items():
@@ -127,13 +193,24 @@ class PortfolioService:
                 latest_price = PortfolioRepository.get_latest_stock_price(data['stock_obj'])
                 current_price = float(latest_price) if latest_price else 0.0
                 
+                # Grab our variables to make the profit math clean
+                net_shares = data['net_shares']
+                avg_buy_price = data['average_buy_price']
+                
+                # The Final Financial Math
+                total_cost = net_shares * avg_buy_price
+                current_value = net_shares * current_price
+                net_profit = current_value - total_cost
+                
                 active_holdings.append({
                     "symbol": data['symbol'],
                     "company_name": data['company_name'],
-                    "net_shares": data['net_shares'],
-                    "total_invested": round(data['total_invested'], 2),
-                    "current_price": current_price,
-                    "current_value": round(data['net_shares'] * current_price, 2)
+                    "net_shares": net_shares,
+                    "avg_buy_price": round(avg_buy_price, 2),        # NEW: The execution price
+                    "total_cost": round(total_cost, 2),              # NEW: Replaced total_invested
+                    "current_price": round(current_price, 2),
+                    "current_value": round(current_value, 2),
+                    "net_profit": round(net_profit, 2)               # NEW: The profit!
                 })
 
-        return active_holdings    
+        return active_holdings  

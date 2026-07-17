@@ -126,6 +126,7 @@ function StockDetail() {
   if (loading) return <BookLoader />;
   if (error) return <div style={{ padding: '40px', color: '#ff4c4c' }}>System Alert: {error}</div>;
 
+  const companyName = profile?.company_name || profile?.Company_name || profile?.name || symbol;
   const latestData = prices.length > 0 ? prices[prices.length - 1] : null;
 
   const formatYAxis = (tickItem) => {
@@ -156,13 +157,13 @@ function StockDetail() {
           marginBottom: '30px', fontSize: '14px', fontWeight: '600', transition: 'color 0.2s'
         }}
       >
-        ← Back to Directory
+        ← Back
       </button>
 
       {/* MOBILE RESPONSIVE HEADER + WATCHLIST BUTTON */}
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: '15px', marginBottom: '30px' }}>
-        <div>
-          <h1 style={{ color: 'var(--text-main)', margin: '0 0 5px 0', fontSize: '2.5rem', lineHeight: '1.2' }}>{profile.company_name}</h1>
+        <div style={{ flex: '1 1 320px', minWidth: 0 }}>
+          <h1 style={{ color: 'var(--text-main)', margin: '0 0 5px 0', fontSize: 'clamp(1.4rem, 2.4vw, 2.5rem)', lineHeight: '1.2', maxWidth: '100%', overflowWrap: 'anywhere', wordBreak: 'break-word' }}>{companyName}</h1>
           <p style={{ color: 'var(--accent-green)', margin: 0, fontSize: '1.2rem', fontWeight: 'bold', letterSpacing: '1px' }}>{symbol}</p>
         </div>
         
@@ -172,12 +173,6 @@ function StockDetail() {
             <p style={{ color: 'var(--text-muted)', margin: 0 }}>Market Cap: <span style={{ color: 'var(--text-main)', fontWeight: '600' }}>{profile['market cap'] ? `$${profile['market cap'].toLocaleString()}` : 'Unknown'}</span></p>
           </div>
           
-          {/* Watchlist Button (Only visible if logged in) */}
-          {user && (
-             <button onClick={handleWatchlist} style={{ padding: '8px', backgroundColor: 'var(--bg-secondary)', color: 'var(--accent-green)', border: '1px solid var(--border-color)', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}>
-                ⭐ Add to Watchlist
-             </button>
-          )}
         </div>
       </div>
 

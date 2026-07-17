@@ -7,37 +7,56 @@ from rest_framework.permissions import IsAuthenticated
 from portfolio.services.services import PortfolioService
 
 class WatchlistView(APIView):
-    permission_classes = [IsAuthenticated]
-
     def get(self, request):
-        data = PortfolioService.get_watchlist(request.user)
-        return Response({
-            "status": "success",
-            "message": "Watchlist retrieved successfully",
-            "data": data,
-            "error": None
-        }, status=status.HTTP_200_OK)
+        # 1. Grab all watchlists + live prices
+        watchlists = PortfolioService.get_user_watchlists(request.user)
+        return Response({"status": "success", "data": watchlists}, status=200)
 
     def post(self, request):
-        symbol = request.data.get('symbol')
-        if not symbol:
-            return Response({"error": "Stock symbol is required"}, status=400)
-        result, error = PortfolioService.add_to_watchlist(request.user, symbol)
-        
-        if error:
-            return Response({
-                "status": "error",
-                "message": error,
-                "data": None,
-                "error": error
-            }, status=status.HTTP_400_BAD_REQUEST)
+        # This endpoint will handle TWO jobs based on what React asks for
+        action = request.data.get('action')
 
-        return Response({
-            "status": "success",
-            "message": "Stock added to watchlist successfully",
-            "data": result,
-            "error": None
-        }, status=status.HTTP_201_CREATED)
+        # 2A. If React asks to create a new folder:
+        if action == 'create_group':
+            name = request.data.get('name')
+            group, error = PortfolioService.create_watchlist_group(request.user, name)
+            if error:
+                return Response({"error": error}, status=400)
+            return Response({"message": f"Watchlist '{name}' created!", "group_id": group.id}, status=201)
+
+        # 2B. If React asks to add a stock to a folder:
+        elif action == 'add_stock':
+            group_id = request.data.get('group_id')
+            symbol = request.data.get('symbol')
+            
+            if not group_id or not symbol:
+                return Response({"error": "Missing group ID or stock symbol"}, status=400)
+
+            item, error = PortfolioService.add_to_watchlist(request.user, group_id, symbol)
+            if error:
+                return Response({"error": error}, status=400)
+            return Response({"message": f"{symbol} successfully added!"}, status=200)
+
+        return Response({"error": "Invalid action"}, status=400)
+    
+    def delete(self, request):
+        action = request.data.get('action')
+
+        if action == 'delete_group':
+            group_id = request.data.get('group_id')
+            msg, error = PortfolioService.delete_watchlist_group(request.user, group_id)
+            if error:
+                return Response({"error": error}, status=400)
+            return Response({"message": msg}, status=200)
+
+        elif action == 'remove_stock':
+            item_id = request.data.get('item_id')
+            msg, error = PortfolioService.remove_from_watchlist(request.user, item_id)
+            if error:
+                return Response({"error": error}, status=400)
+            return Response({"message": msg}, status=200)
+
+        return Response({"error": "Invalid action"}, status=400)
 
 class TransactionView(APIView):
     permission_classes = [IsAuthenticated]
