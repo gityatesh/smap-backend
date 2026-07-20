@@ -28,6 +28,13 @@ const Login = () => {
                 },
                 body: JSON.stringify({ username, password }),
             });
+            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/accounts/login/', { ////
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({ username, password }),
+            // });
 
             const data = await response.json();
 
@@ -113,7 +120,7 @@ const Login = () => {
                         disabled={isLoading}
                         style={{ 
                             marginTop: '10px', padding: '12px', borderRadius: '6px', border: 'none', 
-                            backgroundColor: '#3b82f6', color: 'white', fontWeight: 'bold', fontSize: '16px', 
+                            backgroundColor: '#3b82f6', color: 'var(--text-main)', fontWeight: 'bold', fontSize: '16px', 
                             cursor: isLoading ? 'not-allowed' : 'pointer' 
                         }}
                     >

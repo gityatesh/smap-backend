@@ -15,7 +15,7 @@ function Home() {
   const [error, setError] = useState(null);
 
   // 2. READ THE BROWSER MEMORY ON THE HOME PAGE
-  const [favorites] = useState(() => {
+  const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem('favorites');
     return saved ? JSON.parse(saved) : [];
   });
@@ -32,8 +32,23 @@ function Home() {
     ])
     .then(([summaryJson, topStocksJson, allStocksJson]) => {
       setMarketData(summaryJson?.data || {});
-      setTopStocks(topStocksJson?.data || []);
-      setAllStocks(allStocksJson?.data || []); 
+
+      // Normalize top stocks payload to a consistent shape so UI can read `price` reliably.
+      const rawTop = (topStocksJson?.data || topStocksJson || []);
+      const normalizedTop = rawTop.map(item => {
+        const rawPrice = item['Close Price'] ?? item.close_price ?? item.close ?? item.price ?? item.current_price ?? item.Price ?? null;
+        const price = rawPrice != null && String(rawPrice).trim() !== '' ? Number(String(rawPrice).replace(/[^0-9.-]+/g, '')) : null;
+        return {
+          Symbol: item.Symbol || item.symbol || item.ticker || item.code,
+          Company_name: item['Company Name'] || item.Company_name || item.company_name || item.name || '',
+          price,
+          change_percent: item.change_percent ?? item.change ?? item['Change %'] ?? null,
+          __raw: item
+        };
+      });
+
+      setTopStocks(normalizedTop);
+      setAllStocks(allStocksJson?.data || []);
       setLoading(false);
     })
     .catch(err => {
@@ -46,7 +61,7 @@ function Home() {
 
   // 3. FILTER OUT ONLY YOUR WATCHLIST
   // We look through all the stocks, and only keep the ones whose symbol exists in your favorites array.
-  const favoriteStocks = allStocks.filter(stock => favorites.includes(stock.Symbol));
+  const favoriteStocks = allStocks.filter(stock => favorites.includes(stock.Symbol || stock.symbol));
 
   return (
     <div>
@@ -66,29 +81,29 @@ function Home() {
         </div>
       </div>
 
-      {/* TOP PERFORMING ASSETS */}
-      {topStocks.length > 0 && (
-        <div style={{ marginBottom: '50px' }}>
-          <h2 style={{ color: 'var(--text-main)', fontSize: '18px', marginBottom: '20px' }}>Top Performing Assets (Latest Session)</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '15px' }}>
-            {topStocks.map((stock, index) => (
-              <div 
-                key={`top-${index}`} 
-                onClick={() => navigate(`/stock/${stock.Symbol}`)}
-                style={{ 
-                  padding: '16px', border: '1px solid var(--accent-green)', borderRadius: '6px', 
-                  backgroundColor: 'var(--bg-secondary)', textAlign: 'center', cursor: 'pointer'
-                }}
-              >
-                <h3 style={{ margin: '0 0 4px 0', color: 'var(--text-main)', fontSize: '16px' }}>{stock.Symbol}</h3>
-                <p style={{ margin: 0, color: 'var(--accent-green)', fontWeight: '700', fontSize: '15px' }}>
-                  ${parseFloat(stock['Close Price']).toFixed(2)}
-                </p>
+      {/* Top Performing Assets Container */}
+      <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', marginTop: '20px' }}>
+          {/* Make sure your array name matches here (e.g., topPerformers, topAssets, etc.) */}
+            {topStocks.map((asset, index) => (
+              <div key={index} onClick={() => navigate(`/stock/${asset.Symbol || asset.symbol}`)} style={{
+                  flex: '1',
+                  minWidth: '120px',
+                  border: '1px solid #10b981', /* The Crisp Green Border */
+                  borderRadius: '8px',
+                  padding: '20px',
+                  textAlign: 'center',
+                  backgroundColor: 'var(--bg-card)', /* Changes with Light/Dark mode! */
+                  transition: 'background-color 0.3s ease'
+              }}>
+                    <h4 style={{ margin: '0 0 8px 0', color: 'var(--text-main)', fontSize: '16px' }}>
+                      {asset.symbol || asset.Symbol}
+                  </h4>
+                  <p style={{ margin: 0, color: '#10b981', fontWeight: 'bold', fontSize: '15px' }}>
+                      ${asset.price || asset.current_price|| '-'} 
+                  </p>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+          ))}
+      </div>
 
       {/* 4. YOUR NEW WATCHLIST SECTION */}
       <div>

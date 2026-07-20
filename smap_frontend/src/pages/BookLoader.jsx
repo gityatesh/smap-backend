@@ -15,26 +15,27 @@ function BookLoader() {
   }, []);
 
   return (
-    // Changed to flexDirection: 'column' so the text sits nicely under the book
-    <div className="loader-container" style={{ flexDirection: 'column' }}>
+    // Ensure the loader container is a flex column and centered so the
+    // book SVG and message are always visible and positioned correctly.
+    <div className="loader-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '180px' }}>
       
       <div className="loader">
-        <div className="book-wrapper">
+        <div className="book-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {/* Main Book SVG */}
-          <svg xmlns="http://www.w3.org/2000/svg" fill="var(--bg-secondary)" viewBox="0 0 126 75" className="book">
-            <rect strokeWidth="6" stroke="var(--accent-green)" rx="7.5" height="70" width="121" y="2.5" x="2.5"></rect>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 126 75" className="book" aria-hidden="true">
+            <rect strokeWidth="6" stroke="var(--accent-green)" rx="7.5" height="70" width="121" y="2.5" x="2.5" fill="var(--bg-card)"></rect>
             <line strokeWidth="6" stroke="var(--accent-green)" y2="75" x2="63.5" x1="63.5"></line>
-            <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-muted)" d="M25 20H50"></path>
-            <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-muted)" d="M101 20H76"></path>
-            <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-muted)" d="M16 30L50 30"></path>
-            <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-muted)" d="M110 30L76 30"></path>
+            <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-main)" d="M25 20H50"></path>
+            <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-main)" d="M101 20H76"></path>
+            <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-main)" d="M16 30L50 30"></path>
+            <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-main)" d="M110 30L76 30"></path>
           </svg>
           
           {/* Flipping Page SVG */}
-          <svg xmlns="http://www.w3.org/2000/svg" fill="var(--bg-secondary)" viewBox="0 0 65 75" className="book-page">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 65 75" className="book-page" aria-hidden="true">
             <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-muted)" d="M40 20H15"></path>
             <path strokeLinecap="round" strokeWidth="4" stroke="var(--text-muted)" d="M49 30L15 30"></path>
-            <path strokeWidth="6" stroke="var(--accent-green)" d="M2.5 2.5H55C59.1421 2.5 62.5 5.85786 62.5 10V65C62.5 69.1421 59.1421 72.5 55 72.5H2.5V2.5Z"></path>
+            <path strokeWidth="6" stroke="var(--accent-green)" d="M2.5 2.5H55C59.1421 2.5 62.5 5.85786 62.5 10V65C62.5 69.1421 59.1421 72.5 55 72.5H2.5V2.5Z" fill="var(--bg-card)"></path>
           </svg>
         </div>
       </div>

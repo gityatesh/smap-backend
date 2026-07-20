@@ -38,6 +38,11 @@ const Signup = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/accounts/register/', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
                 body: JSON.stringify({
                     username: formData.username,
                     email: formData.email,
@@ -110,7 +115,7 @@ const Signup = () => {
                     </div>
 
                     <button type="submit" disabled={isLoading}
-                        style={{ marginTop: '10px', padding: '12px', borderRadius: '6px', border: 'none', backgroundColor: '#10b981', color: 'white', fontWeight: 'bold', fontSize: '16px', cursor: isLoading ? 'not-allowed' : 'pointer' }}>
+                        style={{ marginTop: '10px', padding: '12px', borderRadius: '6px', border: 'none', backgroundColor: '#10b981', color: 'var(--text-main)', fontWeight: 'bold', fontSize: '16px', cursor: isLoading ? 'not-allowed' : 'pointer' }}>
                         {isLoading ? 'Creating Account...' : 'Sign Up'}
                     </button>
                 </form>

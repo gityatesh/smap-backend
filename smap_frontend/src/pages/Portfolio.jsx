@@ -25,12 +25,21 @@ const Portfolio = () => {
                 fetch('http://127.0.0.1:8000/api/portfolio/summary/', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }),
+                // fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/summary/', {
+                //     headers: { 'Authorization': `Bearer ${token}` }
+                // }),
                 fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }),
+                // fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+                //     headers: { 'Authorization': `Bearer ${token}` }
+                // }),
                 fetch('http://127.0.0.1:8000/api/portfolio/wallet/', { 
                     headers: { 'Authorization': `Bearer ${token}` } 
-                })
+                }),
+                // fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/wallet/', { 
+                //     headers: { 'Authorization': `Bearer ${token}` } 
+                // })
             ]);
 
             if (!summaryRes.ok || !watchlistRes.ok) {
@@ -77,6 +86,11 @@ const Portfolio = () => {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ action: 'create_group', name: newListName })
             });
+            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            //     body: JSON.stringify({ action: 'create_group', name: newListName })
+            // });
             if (response.ok) {
                 setNewListName('');
                 await fetchPortfolioData();
@@ -95,6 +109,11 @@ const Portfolio = () => {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ action: 'add_stock', group_id: groupId, symbol: symbol })
             });
+            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            //     body: JSON.stringify({ action: 'add_stock', group_id: groupId, symbol: symbol })
+            // });
             if (response.ok) {
                 e.target.reset();
                 await fetchPortfolioData();
@@ -110,6 +129,11 @@ const Portfolio = () => {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ action: 'delete_group', group_id: groupId })
             });
+            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+            //     method: 'DELETE',
+            //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            //     body: JSON.stringify({ action: 'delete_group', group_id: groupId })
+            // });
             if (response.ok) {
                 await fetchPortfolioData();
             }
@@ -124,6 +148,11 @@ const Portfolio = () => {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({ action: 'remove_stock', item_id: itemId })
             });
+            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+            //     method: 'DELETE',
+            //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            //     body: JSON.stringify({ action: 'remove_stock', item_id: itemId })
+            // });
             if (response.ok) {
                 await fetchPortfolioData();
             }
@@ -219,9 +248,9 @@ const Portfolio = () => {
                             placeholder="New List Name (e.g. Tech)" 
                             value={newListName}
                             onChange={(e) => setNewListName(e.target.value)}
-                            style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid #334155', background: '#1e293b', color: 'white' }}
+                            style={{ padding: '8px 12px', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-main)' }}
                         />
-                        <button type="submit" style={{ padding: '8px 16px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+                        <button type="submit" style={{ padding: '8px 16px', background: '#3b82f6', color: 'var(--text-main)', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
                             + Create
                         </button>
                     </form>
@@ -232,24 +261,24 @@ const Portfolio = () => {
                     <p style={{ color: 'var(--text-secondary)' }}>You don't have any watchlists yet. Create one above!</p>
                 ) : (
                     watchlist.map((group, index) => (
-                        <div key={index} style={{ marginBottom: '30px', background: '#1e293b', padding: '20px', borderRadius: '8px' }}>
+                        <div key={index} style={{ marginBottom: '30px', background: 'var(--bg-card)', padding: '20px', borderRadius: '8px' }}>
                             
                             {/* Folder Header with Delete Button */}
-                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #334155', paddingBottom: '10px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
                                 <h3 style={{ marginTop: 0, color: '#e2e8f0' }}>{group.name}</h3>
                                 <button onClick={() => deleteWatchlist(group.id)} style={{ background: 'transparent', color: '#ef4444', border: 'none', cursor: 'pointer' }}>
-                                    🗑️ Delete List
+                                     Delete List
                                 </button>
                             </div>
 
                             {/* Add Stock Form - Directly inside the folder! */}
                             <form onSubmit={(e) => addStockToGroup(e, group.id)} style={{ display: 'flex', gap: '10px', marginTop: '15px', marginBottom: '15px' }}>
-                                <input name="symbol" type="text" placeholder="Stock Symbol (e.g. AAPL)" style={{ padding: '6px', borderRadius: '4px', border: '1px solid #334155', background: '#0f172a', color: 'white' }} />
-                                <button type="submit" style={{ padding: '6px 12px', background: '#10b981', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>+ Add Stock</button>
+                                <input name="symbol" type="text" placeholder="Stock Symbol (e.g. AAPL)" style={{ padding: '6px', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--bg-main)', color: 'var(--text-main)' }} />
+                                <button type="submit" style={{ padding: '6px 12px', background: 'transparent', color: 'var(--text-main)', border: 'true', borderRadius: '4px', cursor: 'pointer' }}>+ Add Stock</button>
                             </form>
                             
                             {group.items.length === 0 ? (
-                                <p style={{ color: '#94a3b8', fontSize: '14px' }}>No stocks in this list yet.</p>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>No stocks in this list yet.</p>
                             ) : (
                                 <table style={{ width: '100%', textAlign: 'left', borderCollapse: 'collapse' }}>
                                     <thead>
@@ -272,7 +301,7 @@ const Portfolio = () => {
                                                 <td style={{ padding: '15px 0' }}>{item.company_name}</td>
                                                 <td style={{ padding: '15px 0', fontWeight: 'bold' }}>${item.current_price.toFixed(2)}</td>
                                                 <td style={{ padding: '15px 0' }}>
-                                                    <button onClick={() => removeStock(item.item_id)} style={{ background: '#ef4444', color: 'white', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>
+                                                    <button onClick={() => removeStock(item.item_id)} style={{ background: '#ef4444', color: 'var(--text-main)', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>
                                                         Remove
                                                     </button>
                                                 </td>

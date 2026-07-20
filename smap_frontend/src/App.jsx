@@ -6,12 +6,13 @@ import ThemeToggle from './ThemeToggle';
 import SmapLogo from './SmapLogo';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Portfolio from './pages/Portfolio';
 
 // Import our newly split pages
 import Home from './pages/Home';
 import Explore from './pages/Explore';
-import StockDetail from './pages/StockDetail';    
+import StockDetail from './pages/StockDetail';  
+import Portfolio from './pages/Portfolio';
+import Profile from './pages/Profile';  
 
 function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -86,16 +87,15 @@ function App() {
             <>
               {/* If Logged In */}
               <NavLink to="/portfolio" style={({ isActive }) => ({ color: isActive ? "var(--text-main)" : "var(--text-muted)", textDecoration: "none", fontWeight: "600", fontSize: "16px" })}>
-                Portfolio 
+                Portfolio
               </NavLink>
+              
               <div style={{ padding: "4px 12px", backgroundColor: "var(--bg-secondary)", borderRadius: "8px", fontSize: "14px", fontWeight: "bold" }}>
-                💰 ${user.balance?.toLocaleString()}
+                💵 ${user.balance?.toLocaleString()}
               </div>
-              <button 
-                onClick={() => { logout(); navigate('/'); }} 
-                style={{ background: 'none', border: 'none', color: '#ef4444', fontWeight: '600', cursor: 'pointer', fontSize: "16px" }}>
-                Logout
-              </button>
+              <NavLink to="/profile" style={({ isActive }) => ({ color: isActive ? "var(--text-main)" : "var(--text-muted)", textDecoration: "none", fontWeight: "600", fontSize: "16px" })}>
+                Profile
+              </NavLink>
             </>
           ) : (
             <>
@@ -121,6 +121,7 @@ function App() {
         <Route path = "/login" element = {<Login />} /> 
         <Route path="/signup" element={<Signup />} /> 
         <Route path="/portfolio" element={<Portfolio />} /> 
+        <Route path="/profile" element={<Profile />} /> 
       </Routes>
 
     </div>

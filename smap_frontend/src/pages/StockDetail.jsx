@@ -1,7 +1,7 @@
 // src/pages/StockDetail.jsx
 import React, { useState, useEffect, useContext } from 'react'; // 👈 Added useContext
 import { useParams, useNavigate } from 'react-router-dom';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import BookLoader from './BookLoader';
 import { AuthContext } from '../AuthContext'; // 👈 Added AuthContext
 
@@ -35,14 +35,28 @@ function StockDetail() {
     Promise.all([
       fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/`),
       fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/prices/`)
+      // fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/`),
+      // fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/prices/`)
     ])
     .then(async ([resProfile, resPrices]) => {
       if (!resProfile.ok || !resPrices.ok) throw new Error('Failed to fetch data from Django');
       const profileJson = await resProfile.json();
       const pricesJson = await resPrices.json();
-      
+
       setProfile(profileJson.data);
-      setPrices(pricesJson.data.data.reverse());
+      // Normalize numeric fields so the chart and table render reliably
+      // Then sort ascending by Date so `prices[prices.length-1]` is the latest session
+      const rawPrices = pricesJson.data.data || [];
+      const normalized = rawPrices.map(p => ({
+        ...p,
+        close_price: p.close_price !== undefined ? Number(p.close_price) : NaN,
+        open_price: p.open_price !== undefined ? Number(p.open_price) : NaN,
+        high_price: p.high_price !== undefined ? Number(p.high_price) : NaN,
+        low_price: p.low_price !== undefined ? Number(p.low_price) : NaN,
+        volume: p.volume !== undefined ? Number(p.volume) : 0,
+      })).sort((a, b) => new Date(a.Date) - new Date(b.Date));
+
+      setPrices(normalized);
       setLoading(false);
     })
     .catch(err => {
@@ -64,6 +78,12 @@ function StockDetail() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
+      // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/trade/', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Bearer ${token}`
+      //   },
         body: JSON.stringify({
           symbol: symbol, 
           transaction_type: transactionType,
@@ -110,6 +130,12 @@ function StockDetail() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
+      // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Bearer ${token}`
+      //   },
         body: JSON.stringify({ symbol:symbol})
       });
       const data = await response.json();
@@ -140,10 +166,12 @@ function StockDetail() {
   };
 
   const formatTooltip = (value) => {
+    // Accept first arg only (recharts passes value,name,props)
+    if (value == null || value === undefined) return ['-', metricLabels[chartMetric]];
     if (chartMetric === 'volume') {
-      return [value.toLocaleString(), 'Volume'];
+      return [Number(value).toLocaleString(), 'Volume'];
     }
-    return [`$${parseFloat(value).toFixed(2)}`, metricLabels[chartMetric]];
+    return [`$${Number(value).toFixed(2)}`, metricLabels[chartMetric]];
   };
 
   return (
@@ -266,7 +294,7 @@ function StockDetail() {
             className="terminal-select" 
             value={chartMetric} 
             onChange={(e) => setChartMetric(e.target.value)}
-            style={{ padding: '6px 12px', borderRadius: '4px', backgroundColor: 'var(--bg-secondary)', color: 'var(--text-main)', border: '1px solid var(--border-color)' }}
+            style={{ padding: '6px 12px', borderRadius: '4px', backgroundColor: 'var(--bg-main)', color: 'var(--text-main)', border: '1px solid var(--border-color)' }}
           >
             <option value="close_price">Closing Price</option>
             <option value="open_price">Opening Price</option>
@@ -277,18 +305,19 @@ function StockDetail() {
         </div>
 
         <div style={{ width: '100%', height: '400px' }}>
-          <ResponsiveContainer>
+          <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={prices}>
               <defs>
                 <linearGradient id="colorMetric" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.2}/>
+                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.5}/>
                   <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <XAxis dataKey="Date" stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} tickMargin={15} minTickGap={30} />
-              <YAxis domain={['auto', 'auto']} stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} tickFormatter={formatYAxis} width={65} />
-              <Tooltip contentStyle={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', color: 'var(--text-main)', borderRadius: '5px' }} itemStyle={{ color: 'var(--accent-green)', fontWeight: 'bold' }} formatter={formatTooltip} />
-              <Area type="monotone" dataKey={chartMetric} stroke="var(--accent-green)" strokeWidth={3} fillOpacity={1} fill="url(#colorMetric)" />
+              <XAxis dataKey="Date" stroke="var(--text-main)" tick={{fill: 'var(--text-main)'}} tickMargin={15} minTickGap={30} />
+              <YAxis domain={['auto', 'auto']} stroke="var(--text-main)" tick={{fill: 'var(--text-main)'}} tickFormatter={formatYAxis} width={65} />
+              <Tooltip contentStyle={{ backgroundColor: 'var(--bg-main)', borderColor: 'var(--accent-green)', color: 'var(--text-main)', borderRadius: '5px' }} itemStyle={{ color: 'var(--accent-green)', fontWeight: 'bold' }} formatter={formatTooltip} />
+              <Area type="monotone" dataKey={chartMetric} stroke="none" fillOpacity={1} fill="url(#colorMetric)" isAnimationActive={true} />
+              <Line type="monotone" dataKey={chartMetric} stroke="#10b981" strokeWidth={2} strokeOpacity={1} dot={false} isAnimationActive={true} />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -298,20 +327,20 @@ function StockDetail() {
       <div className="terminal-card">
         <h3 style={{ color: 'var(--text-main)', margin: '0 0 20px 0', fontSize: '16px' }}>30-Day Session Ledger</h3>
         <div style={{ maxHeight: '400px', overflow: 'auto', overflowX: 'auto' }}>
-          <table style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px', whiteSpace: 'nowrap' }}>
-            <thead style={{ position: 'sticky', top: 0, backgroundColor: 'var(--bg-secondary)' }}>
+          <table style={{ width: '100%', minWidth: '600px', borderCollapse: 'separate', textAlign: 'left', fontSize: '14px', whiteSpace: 'nowrap' }}>
+            <thead style={{ position: 'sticky', top: 0, backgroundColor: 'var(--bg-secondary)', zIndex: 5, boxShadow: '0 2px 6px rgba(0,0,0,0.06)' }}>
               <tr>
-                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Date</th>
-                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Open</th>
-                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>High</th>
-                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Low</th>
-                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Close</th>
-                <th style={{ padding: '12px 16px', color: 'var(--text-muted)', borderBottom: '1px solid var(--border-color)' }}>Volume</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-main)', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-main)', zIndex: 6, fontWeight: 600 }}>Date</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-main)', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-main)', zIndex: 6, fontWeight: 600 }}>Open</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-main)', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-main)', zIndex: 6, fontWeight: 600 }}>High</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-main)', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-main)', zIndex: 6, fontWeight: 600 }}>Low</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-main)', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-main)', zIndex: 6, fontWeight: 600 }}>Close</th>
+                <th style={{ padding: '12px 16px', color: 'var(--text-main)', borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-main)', zIndex: 6, fontWeight: 600 }}>Volume</th>
               </tr>
             </thead>
             <tbody>
               {[...prices].reverse().map((session, index) => (
-                <tr key={session.Date} style={{
+                <tr key={`${session.Date}-${index}`} style={{
                     backgroundColor: index === 0 ? 'rgba(33, 206, 153, 0.05)' : 'transparent',
                     borderLeft: index === 0 ? '3px solid var(--accent-green)' : '3px solid transparent',
                     borderBottom: '1px solid var(--border-color)',
@@ -319,7 +348,7 @@ function StockDetail() {
                     fontVariantNumeric: 'tabular-nums'
                   }}
                   onMouseOver={(e) => { if (index !== 0) e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'; }}
-                  onMouseOut={(e) => { if (index !== 0) e.currentTarget.style.backgroundColor = 'transparent'; }}
+                  onMouseOut={(e) => { if (index !== 0) e.currentTarget.style.backgroundColor = 'translucent'; }}
                 >
                   <td style={{ padding: '12px 16px', color: 'var(--text-main)' }}>{session.Date}</td>
                   <td style={{ padding: '12px 16px', color: 'var(--text-main)' }}>${parseFloat(session.open_price).toFixed(2)}</td>

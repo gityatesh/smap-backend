@@ -108,3 +108,21 @@ class WalletView(APIView):
             return Response({"available_cash": float(balance)})
         except Exception:
             return Response({"available_cash": 0.0})
+        
+class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated] # Ensures only logged-in users can fetch this data
+
+    def get(self, request):
+        user = request.user
+        
+        # Package the user data to send to React
+        profile_data = {
+            "username": user.username, #return json username
+            "email": user.email, #return json email (if provided)
+            "date_joined": user.date_joined.strftime('%B %d, %Y') if user.date_joined else None, #return joining date 
+        }
+        
+        return Response({
+            "status": "success",
+            "data": profile_data
+        }, status=200)
