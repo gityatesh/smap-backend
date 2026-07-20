@@ -21,20 +21,20 @@ const Login = () => {
 
         try {
             // Send the credentials to your custom Django endpoint
-            const response = await fetch('http://127.0.0.1:8000/api/accounts/login/', { ////
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
-            });
-            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/accounts/login/', { ////
+            // const response = await fetch('http://127.0.0.1:8000/api/accounts/login/', { ////
             //     method: 'POST',
             //     headers: {
             //         'Content-Type': 'application/json',
             //     },
             //     body: JSON.stringify({ username, password }),
             // });
+            const response = await fetch('https://smap-backend-yrlx.onrender.com/api/accounts/login/', { ////
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
 
             const data = await response.json();
 

@@ -22,24 +22,24 @@ const Portfolio = () => {
 
         try {
             const [summaryRes, watchlistRes] = await Promise.all([
-                fetch('http://127.0.0.1:8000/api/portfolio/summary/', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                }),
-                // fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/summary/', {
+                // fetch('http://127.0.0.1:8000/api/portfolio/summary/', {
                 //     headers: { 'Authorization': `Bearer ${token}` }
                 // }),
-                fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
+                fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/summary/', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }),
-                // fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+                // fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
                 //     headers: { 'Authorization': `Bearer ${token}` }
                 // }),
-                fetch('http://127.0.0.1:8000/api/portfolio/wallet/', { 
-                    headers: { 'Authorization': `Bearer ${token}` } 
+                fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+                    headers: { 'Authorization': `Bearer ${token}` }
                 }),
-                // fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/wallet/', { 
+                // fetch('http://127.0.0.1:8000/api/portfolio/wallet/', { 
                 //     headers: { 'Authorization': `Bearer ${token}` } 
-                // })
+                // }),
+                fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/wallet/', { 
+                    headers: { 'Authorization': `Bearer ${token}` } 
+                })
             ]);
 
             if (!summaryRes.ok || !watchlistRes.ok) {
@@ -81,16 +81,16 @@ const Portfolio = () => {
         e.preventDefault();
         if (!newListName.trim()) return;
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ action: 'create_group', name: newListName })
-            });
-            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+            // const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
             //     method: 'POST',
             //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             //     body: JSON.stringify({ action: 'create_group', name: newListName })
             // });
+            const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ action: 'create_group', name: newListName })
+            });
             if (response.ok) {
                 setNewListName('');
                 await fetchPortfolioData();
@@ -104,16 +104,16 @@ const Portfolio = () => {
         const symbol = e.target.symbol.value.trim().toUpperCase();
         if (!symbol) return;
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ action: 'add_stock', group_id: groupId, symbol: symbol })
-            });
-            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+            // const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
             //     method: 'POST',
             //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             //     body: JSON.stringify({ action: 'add_stock', group_id: groupId, symbol: symbol })
             // });
+            const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ action: 'add_stock', group_id: groupId, symbol: symbol })
+            });
             if (response.ok) {
                 e.target.reset();
                 await fetchPortfolioData();
@@ -124,16 +124,16 @@ const Portfolio = () => {
     // 🗑️ Deletes an entire watchlist folder
     const deleteWatchlist = async (groupId) => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ action: 'delete_group', group_id: groupId })
-            });
-            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+            // const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
             //     method: 'DELETE',
             //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             //     body: JSON.stringify({ action: 'delete_group', group_id: groupId })
             // });
+            const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ action: 'delete_group', group_id: groupId })
+            });
             if (response.ok) {
                 await fetchPortfolioData();
             }
@@ -143,16 +143,16 @@ const Portfolio = () => {
     // 🗑️ Removes a single stock from a folder
     const removeStock = async (itemId) => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ action: 'remove_stock', item_id: itemId })
-            });
-            // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+            // const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
             //     method: 'DELETE',
             //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             //     body: JSON.stringify({ action: 'remove_stock', item_id: itemId })
             // });
+            const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ action: 'remove_stock', item_id: itemId })
+            });
             if (response.ok) {
                 await fetchPortfolioData();
             }

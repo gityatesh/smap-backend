@@ -13,6 +13,7 @@ django-cors-headers==4.9.0
 djangorestframework==3.17.1
 djangorestframework_simplejwt==5.5.1
 fonttools==4.63.0
+gunicorn==26.0.0
 idna==3.18
 kiwisolver==1.5.0
 markdown-it-py==4.2.0
@@ -49,4 +50,3 @@ urllib3==2.7.0
 websockets==16.0
 whitenoise==6.12.0
 yfinance==1.4.1
-gunicorn

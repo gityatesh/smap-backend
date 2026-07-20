@@ -16,12 +16,12 @@ const Profile = () => {
             
             try {
                 // Ensure this URL points perfectly to your Django server!
-                const response = await fetch('http://127.0.0.1:8000/api/portfolio/profile/', {
-                    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
-                });
-                // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/profile/', {
+                // const response = await fetch('http://127.0.0.1:8000/api/portfolio/profile/', {
                 //     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
                 // });
+                const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/profile/', {
+                    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+                });
                 
                 if (response.status === 401) {
                     // token invalid or expired — clear both possible keys and redirect

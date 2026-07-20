@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-o=@(r57kezgfav7g_2fppq2jm__kn%eke321f+p&(*c^c5a@0@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -95,25 +95,25 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 # old database link (in docker-postgres)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'stockmarket_db',
-        'USER': 'postgres',
-        'PASSWORD': 'Yatesh1234?',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'stockmarket_db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Yatesh1234?',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 #connects django with our online database
-'''DATABASES = {
+DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
         conn_max_age=600,    # Keeps the connection open for 10 minutes to speed up requests
         conn_health_checks=True,
     )
-}'''
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators

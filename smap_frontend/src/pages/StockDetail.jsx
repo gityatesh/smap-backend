@@ -33,10 +33,10 @@ function StockDetail() {
 
   useEffect(() => {
     Promise.all([
-      fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/`),
-      fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/prices/`)
-      // fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/`),
-      // fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/prices/`)
+      // fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/`),
+      // fetch(`http://127.0.0.1:8000/api/stocks/${symbol}/prices/`)
+      fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/`),
+      fetch(`https://smap-backend-yrlx.onrender.com/api/stocks/${symbol}/prices/`)
     ])
     .then(async ([resProfile, resPrices]) => {
       if (!resProfile.ok || !resPrices.ok) throw new Error('Failed to fetch data from Django');
@@ -72,18 +72,18 @@ function StockDetail() {
     setActionStatus(null);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/portfolio/trade/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-      // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/trade/', {
+      // const response = await fetch('http://127.0.0.1:8000/api/portfolio/trade/', {
       //   method: 'POST',
       //   headers: {
       //     'Content-Type': 'application/json',
       //     'Authorization': `Bearer ${token}`
       //   },
+      const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/trade/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({
           symbol: symbol, 
           transaction_type: transactionType,
@@ -124,18 +124,18 @@ function StockDetail() {
     if (!token) return;
     setActionStatus(null);
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-      // const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+      // const response = await fetch('http://127.0.0.1:8000/api/portfolio/watchlist/', {
       //   method: 'POST',
       //   headers: {
       //     'Content-Type': 'application/json',
       //     'Authorization': `Bearer ${token}`
       //   },
+      const response = await fetch('https://smap-backend-yrlx.onrender.com/api/portfolio/watchlist/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ symbol:symbol})
       });
       const data = await response.json();
